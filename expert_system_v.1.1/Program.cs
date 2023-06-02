@@ -212,6 +212,8 @@ class Program
                 Console.WriteLine(p.ToString());
             }
 
+
+
             Console.ReadLine();
 
             Console.WriteLine($"{groups.OrderByDescending(p => p.Persons.Count).FirstOrDefault()}");
