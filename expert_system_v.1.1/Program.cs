@@ -192,6 +192,65 @@ class Program
             }
 
         }
+        else if (choice == "n")
+        {
+
+            foreach(AttrGroup g in groups)
+            {
+
+                if(g.Nome != majorGroup)
+                {
+                    possibleChars.Add(g);
+                }
+
+            }
+
+
+            Console.WriteLine("Possible groups:");
+            foreach(AttrGroup p in possibleChars)
+            {
+                Console.WriteLine(p.ToString());
+            }
+
+            Console.ReadLine();
+
+            Console.WriteLine($"{groups.OrderByDescending(p => p.Persons.Count).FirstOrDefault()}");
+
+
+            Console.ReadLine();
+
+            possibleChars.Add(groups.OrderByDescending(p => p.Persons.Count).FirstOrDefault());
+
+
+            Console.WriteLine("Possiveis chars:\n");
+
+            foreach (AttrGroup g in possibleChars)
+            {
+
+                foreach (Person p in g.Persons)
+                {
+                    Console.WriteLine(p.Name);
+                }
+
+            }
+
+
+
+            Console.ReadLine();
+
+            Console.Clear();
+
+            Console.WriteLine("Aqui 1:");
+
+            questions = group.GenerateGroupQuestions(possibleChars.First().Persons.ToList());
+
+
+            Console.WriteLine("Aqui 2:");
+
+            groups = person.GroupAndCount(possibleChars.First().Persons.ToList(), questions);
+
+
+        }
 
 
     }

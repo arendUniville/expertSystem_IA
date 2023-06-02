@@ -54,6 +54,7 @@ class Person
         List<AttrGroup> groupPersons = new List<AttrGroup>();
         AttrGroup groups;
 
+
         //Fazendo contagem
         int cntPower = list.Where(p => p.HavePower).Count();
         int cntVillain = list.Where(p => p.IsVillain).Count();
