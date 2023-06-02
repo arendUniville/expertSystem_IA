@@ -1,0 +1,15 @@
+C:\repUniville\Aulas\expertSystem_IA\expert_system_v.1.1\obj\Debug\net7.0\expert_system_v.1.1.csproj.AssemblyReference.cache
+C:\repUniville\Aulas\expertSystem_IA\expert_system_v.1.1\obj\Debug\net7.0\expert_system_v.1.1.GeneratedMSBuildEditorConfig.editorconfig
+C:\repUniville\Aulas\expertSystem_IA\expert_system_v.1.1\obj\Debug\net7.0\expert_system_v.1.1.AssemblyInfoInputs.cache
+C:\repUniville\Aulas\expertSystem_IA\expert_system_v.1.1\obj\Debug\net7.0\expert_system_v.1.1.AssemblyInfo.cs
+C:\repUniville\Aulas\expertSystem_IA\expert_system_v.1.1\obj\Debug\net7.0\expert_system_v.1.1.csproj.CoreCompileInputs.cache
+C:\repUniville\Aulas\expertSystem_IA\expert_system_v.1.1\bin\Debug\net7.0\expert_system_v.1.1.exe
+C:\repUniville\Aulas\expertSystem_IA\expert_system_v.1.1\bin\Debug\net7.0\expert_system_v.1.1.deps.json
+C:\repUniville\Aulas\expertSystem_IA\expert_system_v.1.1\bin\Debug\net7.0\expert_system_v.1.1.runtimeconfig.json
+C:\repUniville\Aulas\expertSystem_IA\expert_system_v.1.1\bin\Debug\net7.0\expert_system_v.1.1.dll
+C:\repUniville\Aulas\expertSystem_IA\expert_system_v.1.1\bin\Debug\net7.0\expert_system_v.1.1.pdb
+C:\repUniville\Aulas\expertSystem_IA\expert_system_v.1.1\obj\Debug\net7.0\expert_system_v.1.1.dll
+C:\repUniville\Aulas\expertSystem_IA\expert_system_v.1.1\obj\Debug\net7.0\refint\expert_system_v.1.1.dll
+C:\repUniville\Aulas\expertSystem_IA\expert_system_v.1.1\obj\Debug\net7.0\expert_system_v.1.1.pdb
+C:\repUniville\Aulas\expertSystem_IA\expert_system_v.1.1\obj\Debug\net7.0\expert_system_v.1.1.genruntimeconfig.cache
+C:\repUniville\Aulas\expertSystem_IA\expert_system_v.1.1\obj\Debug\net7.0\ref\expert_system_v.1.1.dll
