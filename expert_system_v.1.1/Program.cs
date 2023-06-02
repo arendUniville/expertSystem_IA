@@ -105,6 +105,24 @@ class Program
             }
 
 
+
+            Console.ReadLine();
+
+            Console.Clear();
+
+            Console.WriteLine("Aqui 1:");
+
+            questions = group.GenerateGroupQuestions(possibleChars.First().Persons.ToList());
+
+
+            Console.WriteLine("Aqui 2:");
+
+            groups = person.GroupAndCount(possibleChars.First().Persons.ToList(), questions);
+
+
+            Console.ReadLine();
+
+
             //person.GroupAndCount(list);
 
             //Console.Clear();
