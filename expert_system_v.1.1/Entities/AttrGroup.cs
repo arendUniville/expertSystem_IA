@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Intrinsics.X86;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace expert_system_v._1._0.Entities;
@@ -79,6 +81,18 @@ class AttrGroup
         return questions;
 
     }
+    public void ShowAllGourps(List<AttrGroup> groups)
+    {
+
+        int cnt = 1;
+
+        foreach (AttrGroup g in groups)
+        {
+            Console.WriteLine($"Grupo [{cnt}]:\n{g.ToString()}");
+            cnt++;
+        }
+
+    }
 
 
     public override string ToString()
@@ -111,7 +125,7 @@ class AttrGroup
 
         
 
-        return $"Nome: {Nome}\nTotal: {Total}\nPergunta: {Pergunta}" +
+        return $"Atributo: {Nome}\nTotal: {Total}\nPergunta: {Pergunta}" +
                $"\nPersons:{resultado}\n]\n";
     }
 

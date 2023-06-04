@@ -95,10 +95,6 @@ class Person
             );
         }
 
-        
-        Console.Write("\nAperte enter para continuar: ");
-        Console.ReadLine();
-
 
         return groupPersons;
 
@@ -162,12 +158,21 @@ class Person
 
     }
 
+    public void ShowMyPersons(List<Person> persons)
+    {
+
+        foreach(Person p in persons) 
+        {
+            Console.WriteLine(p.ToString());
+        }
+
+    }
 
     public override string ToString()
     {
-        return $"--{Id}---------------" + 
+        return $"--{Id}---------------------------------------------------------------------------------------------" + 
                $"\nNome: {Name}\nFilme: {Movie}\nCor do cabelo: {CorCabelo}\nAnimal: {IsAnimal}\nMonstro: {IsMonster}\nVilão: {IsVillain}\nPoderes: {HavePower}\n\nCaracteristica única: {UniqueFeature}\n" + 
-               "--x---------------\n";
+               "--x---------------------------------------------------------------------------------------------\n";
     }
 
 }

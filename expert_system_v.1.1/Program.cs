@@ -1,7 +1,7 @@
 ﻿using expert_system_v._1._0.Entities;
 using expert_system_v._1._0.Service;
 using System;
-
+using System.Reflection.Metadata.Ecma335;
 
 class Program
 {
@@ -14,14 +14,26 @@ class Program
         AttrGroup group = new AttrGroup();
 
 
+
+
+
+        Console.Write("Bem vindo ao Sábio. Aperte qualquer tecla para continuar.");
+
+        ConsoleKeyInfo keyInfo = Console.ReadKey();
+        char keyChar = keyInfo.KeyChar;
+
+
+
+        //Gerando persons
         List<Person> list = persons.GeneratePersons();
 
 
-        foreach (Person p in list)
-        {
-            Console.WriteLine(p.ToString());
-        }
+        //Mostrando persons
+        person.ShowMyPersons(list);
 
+
+        Console.Write("Esse são os seus personagens. Clique enter para continuar.");
+        Console.ReadLine();
         Console.Clear();
 
 
@@ -34,30 +46,32 @@ class Program
         List<AttrGroup> groups = person.GroupAndCount(list, questions);
 
 
+
         Console.Clear();
+        Console.WriteLine("\n\n\n\n\n\n\n\n\n\n\n");
 
-        Console.WriteLine("\nInteligência Artificial: Os personagens foram distribuidos nos seguintes grupos:\n\n");
 
 
-        int cnt = 0;
+        //Mostrando todos os grupos
+        Console.WriteLine("\nSábio: Pelas características dos personagens que você criou, eu achei melhor separar eles da seguinte forma:\n\n");
+        group.ShowAllGourps(groups);
 
-        foreach (AttrGroup g in groups)
-        {
-            Console.WriteLine($"Grupo [{cnt}]:\n{g.ToString()}");
-            cnt++;
-        }
 
 
         Console.ReadLine();
         Console.Clear();
 
 
+
+        //Criando grupos
         AttrGroup groupPower = groups.Where(p => p.Nome == "HavePower").FirstOrDefault();
         AttrGroup groupVillain = groups.Where(v => v.Nome == "IsVillain").FirstOrDefault();
         AttrGroup groupMonster = groups.Where(p => p.Nome == "IsMonster").FirstOrDefault();
         AttrGroup groupAnimal = groups.Where(p => p.Nome == "IsAnimal").FirstOrDefault();
 
 
+
+        //Verificando grupo com mais persons
         string majorGroup = person.GetMajorGroup
             (
                 groupPower,
@@ -69,19 +83,23 @@ class Program
 
 
 
-        //Mostra a pergunta do grupo no qual pertence.
-        Console.WriteLine($"O personagem que você escolheu {questions[majorGroup]} (s/n)");
-        Console.Write("");
-        string choice = Console.ReadLine().ToLower();
+        //Inicia mostrando a pergunta do grupo no qual pertence.
+        Console.Write($"O personagem que você escolheu {questions[majorGroup]} (s/n): ");
+
+
+        //Verificando escolha
+        int choice = VerifyKey();
+        if (choice == 0) return;
+
 
         Console.Clear();
 
 
-
+        //
         List<AttrGroup> possibleChars = new List<AttrGroup>();
 
 
-        if (choice == "s")
+        if (choice == 1)
         {
 
             Console.WriteLine($"{groups.OrderByDescending(p => p.Persons.Count).FirstOrDefault()}");
@@ -97,7 +115,7 @@ class Program
             foreach (AttrGroup g in possibleChars)
             {
 
-                foreach(Person p in g.Persons)
+                foreach (Person p in g.Persons)
                 {
                     Console.WriteLine(p.Name);
                 }
@@ -129,16 +147,18 @@ class Program
 
 
 
-            Console.WriteLine("O seu personagem é o vilão do filme em que ele participa? (s/n) ");
-            Console.Write("");
-            choice = Console.ReadLine().ToLower();
+            Console.Write("O seu personagem é o vilão do filme em que ele participa? (s/n): ");
+            //Verificando escolha
+            choice = VerifyKey();
+            if (choice == 0) return;
 
-            if (choice == "s")
+
+            if (choice == 1)
             {
                 Console.Clear();
                 //Console.WriteLine($"O seu personagem é o : {possibleChars.Where(p => p.IsVillain == true).First().Name}");
             }
-            else if (choice == "n")
+            else if (choice == 2)
             {
 
                 //possibleChars = possibleChars.Where(p => p.HavePower == true).ToList();
@@ -182,23 +202,19 @@ class Program
 
 
             }
-            else if (choice == "")
-            {
-                return;
-            }
-            else
+            else if (choice == 3)
             {
                 Console.WriteLine("Escolha inválida.");
             }
 
         }
-        else if (choice == "n")
+        else if (choice == 2)
         {
 
-            foreach(AttrGroup g in groups)
+            foreach (AttrGroup g in groups)
             {
 
-                if(g.Nome != majorGroup)
+                if (g.Nome != majorGroup)
                 {
                     possibleChars.Add(g);
                 }
@@ -207,7 +223,7 @@ class Program
 
 
             Console.WriteLine("Possible groups:");
-            foreach(AttrGroup p in possibleChars)
+            foreach (AttrGroup p in possibleChars)
             {
                 Console.WriteLine(p.ToString());
             }
@@ -253,7 +269,47 @@ class Program
 
 
         }
+        else if(choice == 3)
+        {
+            Console.Clear();
+            Console.WriteLine("Aperte uma tecla possível para continuar.");
+        }
 
+
+    }
+
+
+    public static int VerifyKey()
+    {
+
+        ConsoleKeyInfo keyInfo = Console.ReadKey();
+        var keyChar = keyInfo.KeyChar;
+
+        if (keyChar == '1')
+        {
+
+            Console.Clear(); 
+            Console.WriteLine("\nEnd.\n");
+            
+            return 0;
+        }
+        else
+        {
+
+            if(keyChar == 's')
+            {
+                return 1;
+            }
+            else if(keyChar == 'n')
+            {
+                return 2;
+            }
+            else
+            {
+                return 3;
+            }
+
+        }
 
     }
 
