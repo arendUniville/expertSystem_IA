@@ -63,7 +63,7 @@ class Person
 
 
         //Atribuindo grupos
-        if( cntPower > 0)
+        if (cntPower > 0)
         {
             if (questions.ContainsKey("HavePower"))
             {
@@ -72,16 +72,9 @@ class Person
                     new AttrGroup("HavePower", cntPower, questions["HavePower"], allPower)
                 );
             }
-            else
-            {
-                Console.WriteLine("WAITING!");
-                Console.WriteLine("Class: Person");
-                Console.WriteLine("Function: GroupAndCount");
-                Console.WriteLine("\nMessage: cntPower tem valor maior que 0 mas não está no dicionário para perguntas!");
-            }
         }
 
-        if( cntVillain > 0)
+        if (cntVillain > 0)
         {
             if (questions.ContainsKey("IsVillain"))
             {
@@ -92,38 +85,23 @@ class Person
                 );
 
             }
-            else
-            {
-                Console.WriteLine("WAITING!");
-                Console.WriteLine("Class: Person");
-                Console.WriteLine("Function: GroupAndCount");
-                Console.WriteLine("\nMessage: cntVillain tem valor maior que 0 mas não está no dicionário para perguntas!");
-            }
         }
 
-        if( cntMonster > 0)
+        if (cntMonster > 0)
         {
-            if (questions.ContainsKey("IsMonster")) 
+            if (questions.ContainsKey("IsMonster"))
             {
                 List<Person> allMonster = list.Where(p => p.IsMonster).ToList();
                 groupPersons.Add(
                     new AttrGroup("IsMonster", cntMonster, questions["IsMonster"], allMonster)
                 );
             }
-            else
-            {
-                Console.WriteLine("WAITING!");
-                Console.WriteLine("Class: Person");
-                Console.WriteLine("Function: GroupAndCount");
-                Console.WriteLine("\nMessage: cntMonster tem valor maior que 0 mas não está no dicionário para perguntas!");
-            }
 
-            
         }
 
-        if( cntAnimal > 0)
+        if (cntAnimal > 0)
         {
-            if (questions.ContainsKey("IsAnimal")) 
+            if (questions.ContainsKey("IsAnimal"))
             {
 
                 List<Person> allAnimal = list.Where(p => p.IsAnimal).ToList();
@@ -132,16 +110,7 @@ class Person
                 );
 
             }
-            else
-            {
-                Console.WriteLine("WAITING!");
-                Console.WriteLine("Class: Person");
-                Console.WriteLine("Function: GroupAndCount");
-                Console.WriteLine("\nMessage: cntAnimal tem valor maior que 0 mas não está no dicionário para perguntas!");
-            }
 
-
-            
         }
 
 
@@ -150,7 +119,7 @@ class Person
     }
 
 
-    public string GetMajorGroup(AttrGroup gPower, AttrGroup gVillain, AttrGroup gMonster, AttrGroup gAnimal, bool msg)
+    public string GetMajorGroup(AttrGroup gPower, AttrGroup gVillain, AttrGroup gMonster, AttrGroup gAnimal, Dictionary<string, string> questionOk, bool msg)
     {
 
         int power;
@@ -160,10 +129,10 @@ class Person
 
 
         power = gPower != null ? gPower.Persons.Count() : 0;
-        
-        villain = gVillain != null ? gVillain.Persons.Count() : 0; 
+
+        villain = gVillain != null ? gVillain.Persons.Count() : 0;
         monster = gMonster != null ? gMonster.Persons.Count() : 0;
-        animal = gAnimal != null ? gAnimal.Persons.Count() : 0; 
+        animal = gAnimal != null ? gAnimal.Persons.Count() : 0;
 
         var majorityGroup = "";
         int majorGroupValue = 0;
@@ -171,26 +140,39 @@ class Person
 
         if (power > majorGroupValue)
         {
-            majorGroupValue = power;
-            majorityGroup = "HavePower";
+            if (!questionOk.ContainsKey("HavePower"))
+            {
+                majorGroupValue = power;
+                majorityGroup = "HavePower";
+            }
         }
 
-        if(villain > majorGroupValue)
+        if (villain > majorGroupValue)
         {
-            majorGroupValue = villain;
-            majorityGroup = "IsVillain";
+            if (!questionOk.ContainsKey("IsVillain"))
+            {
+                majorGroupValue = villain;
+                majorityGroup = "IsVillain";
+            }
+
         }
 
         if (monster > majorGroupValue)
         {
-            majorGroupValue = monster;
-            majorityGroup = "IsMonster";
+            if (!questionOk.ContainsKey("IsMonster"))
+            {
+                majorGroupValue = monster;
+                majorityGroup = "IsMonster";
+            }
         }
 
         if (animal > majorGroupValue)
         {
-            majorGroupValue = animal;
-            majorityGroup = "IsAnimal";
+            if (!questionOk.ContainsKey("IsAnimal"))
+            {
+                majorGroupValue = animal;
+                majorityGroup = "IsAnimal";
+            }
         }
 
 
@@ -202,7 +184,7 @@ class Person
             Console.WriteLine($"Total de personagens animais: {animal}");
 
         }
-        
+
 
 
 
@@ -214,7 +196,7 @@ class Person
     public void ShowMyPersons(List<Person> persons)
     {
 
-        foreach(Person p in persons) 
+        foreach (Person p in persons)
         {
             Console.WriteLine(p.ToString());
         }
@@ -223,8 +205,8 @@ class Person
 
     public override string ToString()
     {
-        return $"--{Id}---------------------------------------------------------------------------------------------" + 
-               $"\nNome: {Name}\nFilme: {Movie}\nCor do cabelo: {CorCabelo}\nAnimal: {IsAnimal}\nMonstro: {IsMonster}\nVilão: {IsVillain}\nPoderes: {HavePower}\n\nCaracteristica única: {UniqueFeature}\n" + 
+        return $"--{Id}---------------------------------------------------------------------------------------------" +
+               $"\nNome: {Name}\nFilme: {Movie}\nCor do cabelo: {CorCabelo}\nAnimal: {IsAnimal}\nMonstro: {IsMonster}\nVilão: {IsVillain}\nPoderes: {HavePower}\n\nCaracteristica única: {UniqueFeature}\n" +
                "--x---------------------------------------------------------------------------------------------\n";
     }
 

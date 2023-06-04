@@ -32,7 +32,7 @@ class AttrGroup
 
 
 
-    public Dictionary<string, string> GenerateGroupQuestions(List<Person> persons, Dictionary<string, bool> lasGroup)
+    public Dictionary<string, string> GenerateGroupQuestions(List<Person> persons, Dictionary<string, string> lasGroup)
     {
 
 
@@ -44,37 +44,57 @@ class AttrGroup
 
             if (person.HavePower)
             {
-                if (!questions.ContainsKey("HavePower"))
+
+                if (!lasGroup.ContainsKey("HavePower"))
                 {
-                    questions.Add("HavePower", "possuí algum poder?");
-                    //Console.WriteLine(questions["HavePower"]);
+                    if (!questions.ContainsKey("HavePower"))
+                    {
+                        questions.Add("HavePower", "possuí algum poder?");
+                        //Console.WriteLine(questions["HavePower"]);
+                    }
                 }
+
+                
             }
-            
-            if(person.IsVillain)
+
+            if (person.IsVillain)
             {
-                if (!questions.ContainsKey("IsVillain"))
+                if (!lasGroup.ContainsKey("IsVillain"))
                 {
-                    questions.Add("IsVillain", "é um vilão no filme que ele participa?");
-                    //Console.WriteLine(questions["IsVillain"]);
+
+                    if (!questions.ContainsKey("IsVillain"))
+                    {
+                        questions.Add("IsVillain", "é um vilão no filme que ele participa?");
+                        //Console.WriteLine(questions["IsVillain"]);
+                    }
+
                 }
             }
-            
-            if(person.IsMonster)
+
+            if (person.IsMonster)
             {
-                if (!questions.ContainsKey("IsMonster"))
+                if (!lasGroup.ContainsKey("IsMonster"))
                 {
-                    questions.Add("IsMonster", "é um monstro?");
-                    //Console.WriteLine(questions["IsMonster"]);
+
+                    if (!questions.ContainsKey("IsMonster"))
+                    {
+                        questions.Add("IsMonster", "é um monstro?");
+                        //Console.WriteLine(questions["IsMonster"]);
+                    }
+
                 }
             }
-            
+
             if(person.IsAnimal)
             {
-                if (!questions.ContainsKey("IsAnimal"))
+                if (!lasGroup.ContainsKey("IsAnimal"))
                 {
-                    questions.Add("IsAnimal", "é um animal?");
-                    //Console.WriteLine(questions["IsAnimal"]);
+                    if (!questions.ContainsKey("IsAnimal"))
+                    {
+                        questions.Add("IsAnimal", "é um animal?");
+                        //Console.WriteLine(questions["IsAnimal"]);
+                    }
+
                 }
             }
 

@@ -12,10 +12,12 @@ class Program
         PersonRepository persons = new PersonRepository();
         Person person = new Person();
         AttrGroup group = new AttrGroup();
+        Dictionary<string, string> questionsOk = new Dictionary<string, string>();
 
         bool showPersons = false;
         bool showGroups = false;
-        bool showMessages = false;
+        bool showMessages = true;
+        bool showGeneratedQuestions = true;
 
 
         Console.Write("Bem vindo ao Sábio. Aperte qualquer tecla para continuar.");
@@ -49,7 +51,7 @@ class Program
         Console.Clear();
 
 
-        Dictionary<string, string> questions = group.GenerateGroupQuestions(list);
+        Dictionary<string, string> questions = group.GenerateGroupQuestions(list, questionsOk);
         List<AttrGroup> groups = person.GroupAndCount(list, questions);
 
 
@@ -88,6 +90,8 @@ class Program
                 groupMonster,
                 groupAnimal,
 
+                questionsOk,
+
                 showMessages
             );
 
@@ -95,7 +99,7 @@ class Program
 
         //Inicia mostrando a pergunta do grupo no qual pertence.
         Console.Write($"Sábio: O personagem que você escolheu {questions[majorGroup]} (s/n): ");
-
+        questionsOk.Add(majorGroup, questions[majorGroup]);
 
         //Verificando escolha
         choice = VerifyKey();
@@ -133,7 +137,6 @@ class Program
 
             }
 
-
             Console.WriteLine("====================");
             Console.Write("\nAperte enter para continuar. ");
 
@@ -146,31 +149,70 @@ class Program
             Console.Clear();
 
 
-
+            List<Person> actualPersons = new List<Person>();
 
 
             //Fazendo a pergunta do grupo atual.
 
-            List<Person> actualPersons = possibleChars.First().Persons.ToList();
+
+
+            foreach (AttrGroup g in groups)
+            {
+
+                List<Person> act = new List<Person>();
+
+                Console.WriteLine($"Goup name: {g.Nome}");
+
+                if (!questionsOk.ContainsKey(g.Nome))
+                {
+                    act = g.Persons.ToList();
+
+                    foreach(Person p in act)
+                    {
+                        actualPersons.Add(p);
+                    }
+
+                }
+
+
+            }
 
 
             
+            //Gerando perguntas
+            questions = group.GenerateGroupQuestions(actualPersons, questionsOk);
+            //Mostrando perguntas geradas
+            if (showGeneratedQuestions)
+            {
 
-            questions = group.GenerateGroupQuestions(actualPersons);
+                foreach(string q in questions.Values)
+                {
+                    Console.WriteLine(q);
+                }
 
-            Console.WriteLine("Gerou as perguntas.");
-            //Verificando escolha
-            choice = VerifyKey();
-            if (choice == 2) return;
+                Console.WriteLine("Gerou as perguntas.");
+                //Verificando escolha
+                choice = VerifyKey();
+                if (choice == 2) return;
+            }
+            
 
-
-
+            //Gerando grupos
             groups = person.GroupAndCount(actualPersons, questions);
+            //Mostrando todos os grupos
+            if (showGroups)
+            {
 
-            Console.WriteLine("Gerou os grupos.");
-            //Verificando escolha
-            choice = VerifyKey();
-            if (choice == 2) return;
+                Console.WriteLine("\nSábio: Pelas características dos personagens que você criou, eu achei melhor separar eles da seguinte forma:\n\n");
+                group.ShowAllGourps(groups);
+
+
+                //Verificando escolha
+                choice = VerifyKey();
+                if (choice == 2) return;
+                Console.Clear();
+
+            }
 
 
             Console.Clear();
@@ -184,6 +226,8 @@ class Program
                     groupMonster,
                     groupAnimal,
 
+                    questionsOk,
+
                     showMessages
                 );
 
@@ -191,6 +235,7 @@ class Program
 
             //Inicia mostrando a pergunta do grupo no qual pertence.
             Console.Write($"Sábio: O personagem que você escolheu {questions[majorGroup]} (s/n): ");
+            questionsOk.Add(majorGroup, questions[majorGroup]);
 
 
             Console.ReadLine();
@@ -266,6 +311,7 @@ class Program
         else if (choice == 0)
         {
 
+            //Adicionando possíveis grupos
             foreach (AttrGroup g in groups)
             {
 
@@ -277,15 +323,30 @@ class Program
             }
 
 
-            Console.WriteLine("Possible groups:");
-            foreach (AttrGroup p in possibleChars)
+            Console.WriteLine("\nSábio: Esses são os possíveis personagens de acordo com a sua resposta:\n");
+            Console.WriteLine("====================");
+
+            foreach (AttrGroup g in possibleChars)
             {
-                Console.WriteLine(p.ToString());
+
+                foreach (Person p in g.Persons)
+                {
+                    Console.WriteLine(p.Name);
+                }
+
             }
 
 
+            Console.WriteLine("====================");
+            Console.Write("\nAperte enter para continuar. ");
 
-            Console.ReadLine();
+            //Verificando escolha
+            choice = VerifyKey();
+            if (choice == 2) return;
+
+
+
+            Console.Clear();
 
             Console.WriteLine($"{groups.OrderByDescending(p => p.Persons.Count).FirstOrDefault()}");
 
@@ -315,7 +376,7 @@ class Program
 
             Console.WriteLine("Aqui 1:");
 
-            questions = group.GenerateGroupQuestions(possibleChars.First().Persons.ToList());
+            //questions = group.GenerateGroupQuestions(possibleChars.First().Persons.ToList());
 
 
             Console.WriteLine("Aqui 2:");
