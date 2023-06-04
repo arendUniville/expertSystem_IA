@@ -135,7 +135,7 @@ class Program
 
 
             Console.WriteLine("====================");
-            Console.Write("Aperte enter para continuar.\n");
+            Console.Write("\nAperte enter para continuar. ");
 
             //Verificando escolha
             choice = VerifyKey();
@@ -145,16 +145,28 @@ class Program
 
             Console.Clear();
 
-            Console.WriteLine("Aqui 1:");
+
+
+
 
             //Fazendo a pergunta do grupo atual.
-            questions = group.GenerateGroupQuestions(possibleChars.First().Persons.ToList());
+
+            List<Person> actualPersons = possibleChars.First().Persons.ToList();
 
 
-            Console.WriteLine("Aqui 2:");
+            
+
+            questions = group.GenerateGroupQuestions(actualPersons);
+
+            foreach(string dic in questions.Values)
+            {
+                Console.WriteLine(dic);
+            }
+
+            Console.ReadLine();
 
 
-            groups = person.GroupAndCount(possibleChars.First().Persons.ToList(), questions);
+            groups = person.GroupAndCount(actualPersons, questions);
 
 
             Console.ReadLine();

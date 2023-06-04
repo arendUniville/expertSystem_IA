@@ -49,7 +49,8 @@ class AttrGroup
                     //Console.WriteLine(questions["HavePower"]);
                 }
             }
-            else if(person.IsVillain)
+            
+            if(person.IsVillain)
             {
                 if (!questions.ContainsKey("IsVillain"))
                 {
@@ -57,7 +58,8 @@ class AttrGroup
                     //Console.WriteLine(questions["IsVillain"]);
                 }
             }
-            else if(person.IsMonster)
+            
+            if(person.IsMonster)
             {
                 if (!questions.ContainsKey("IsMonster"))
                 {
@@ -65,7 +67,8 @@ class AttrGroup
                     //Console.WriteLine(questions["IsMonster"]);
                 }
             }
-            else if(person.IsAnimal)
+            
+            if(person.IsAnimal)
             {
                 if (!questions.ContainsKey("IsAnimal"))
                 {

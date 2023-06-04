@@ -63,36 +63,85 @@ class Person
 
 
         //Atribuindo grupos
-        List<Person> allPower = list.Where(p => p.HavePower).ToList();
         if( cntPower > 0)
         {
-            groupPersons.Add(
-                new AttrGroup("HavePower", cntPower, questions["HavePower"], allPower)
-            );
+            if (questions.ContainsKey("HavePower"))
+            {
+                List<Person> allPower = list.Where(p => p.HavePower).ToList();
+                groupPersons.Add(
+                    new AttrGroup("HavePower", cntPower, questions["HavePower"], allPower)
+                );
+            }
+            else
+            {
+                Console.WriteLine("WAITING!");
+                Console.WriteLine("Class: Person");
+                Console.WriteLine("Function: GroupAndCount");
+                Console.WriteLine("\nMessage: cntPower tem valor maior que 0 mas não está no dicionário para perguntas!");
+            }
         }
 
         if( cntVillain > 0)
         {
-            List<Person> allVillain = list.Where(p => p.IsVillain).ToList();
-            groupPersons.Add(
-                new AttrGroup("IsVillain", cntVillain, questions["IsVillain"], allVillain)
-            );
+            if (questions.ContainsKey("IsVillain"))
+            {
+
+                List<Person> allVillain = list.Where(p => p.IsVillain).ToList();
+                groupPersons.Add(
+                    new AttrGroup("IsVillain", cntVillain, questions["IsVillain"], allVillain)
+                );
+
+            }
+            else
+            {
+                Console.WriteLine("WAITING!");
+                Console.WriteLine("Class: Person");
+                Console.WriteLine("Function: GroupAndCount");
+                Console.WriteLine("\nMessage: cntVillain tem valor maior que 0 mas não está no dicionário para perguntas!");
+            }
         }
 
         if( cntMonster > 0)
         {
-            List<Person> allMonster = list.Where(p => p.IsMonster).ToList();
-            groupPersons.Add(
-                new AttrGroup("IsMonster", cntMonster, questions["IsMonster"], allMonster)
-            );
+            if (questions.ContainsKey("IsMonster")) 
+            {
+                List<Person> allMonster = list.Where(p => p.IsMonster).ToList();
+                groupPersons.Add(
+                    new AttrGroup("IsMonster", cntMonster, questions["IsMonster"], allMonster)
+                );
+            }
+            else
+            {
+                Console.WriteLine("WAITING!");
+                Console.WriteLine("Class: Person");
+                Console.WriteLine("Function: GroupAndCount");
+                Console.WriteLine("\nMessage: cntMonster tem valor maior que 0 mas não está no dicionário para perguntas!");
+            }
+
+            
         }
 
         if( cntAnimal > 0)
         {
-            List<Person> allAnimal = list.Where(p => p.IsAnimal).ToList();
-            groupPersons.Add(
-                new AttrGroup("IsAnimal", cntAnimal, questions["IsAnimal"], allAnimal)
-            );
+            if (questions.ContainsKey("IsAnimal")) 
+            {
+
+                List<Person> allAnimal = list.Where(p => p.IsAnimal).ToList();
+                groupPersons.Add(
+                    new AttrGroup("IsAnimal", cntAnimal, questions["IsAnimal"], allAnimal)
+                );
+
+            }
+            else
+            {
+                Console.WriteLine("WAITING!");
+                Console.WriteLine("Class: Person");
+                Console.WriteLine("Function: GroupAndCount");
+                Console.WriteLine("\nMessage: cntAnimal tem valor maior que 0 mas não está no dicionário para perguntas!");
+            }
+
+
+            
         }
 
 
