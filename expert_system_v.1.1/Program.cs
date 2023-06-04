@@ -158,15 +158,39 @@ class Program
 
             questions = group.GenerateGroupQuestions(actualPersons);
 
-            foreach(string dic in questions.Values)
-            {
-                Console.WriteLine(dic);
-            }
+            Console.WriteLine("Gerou as perguntas.");
+            //Verificando escolha
+            choice = VerifyKey();
+            if (choice == 2) return;
 
-            Console.ReadLine();
 
 
             groups = person.GroupAndCount(actualPersons, questions);
+
+            Console.WriteLine("Gerou os grupos.");
+            //Verificando escolha
+            choice = VerifyKey();
+            if (choice == 2) return;
+
+
+            Console.Clear();
+
+
+            //Verificando grupo com mais persons
+            majorGroup = person.GetMajorGroup
+                (
+                    groupPower,
+                    groupVillain,
+                    groupMonster,
+                    groupAnimal,
+
+                    showMessages
+                );
+
+
+
+            //Inicia mostrando a pergunta do grupo no qual pertence.
+            Console.Write($"Sábio: O personagem que você escolheu {questions[majorGroup]} (s/n): ");
 
 
             Console.ReadLine();

@@ -32,8 +32,9 @@ class AttrGroup
 
 
 
-    public Dictionary<string, string> GenerateGroupQuestions(List<Person> persons)
+    public Dictionary<string, string> GenerateGroupQuestions(List<Person> persons, Dictionary<string, bool> lasGroup)
     {
+
 
         Dictionary<string, string> questions = new Dictionary<string, string>();
 
