@@ -81,6 +81,9 @@ class AttrGroup
         return questions;
 
     }
+
+
+
     public void ShowAllGourps(List<AttrGroup> groups)
     {
 

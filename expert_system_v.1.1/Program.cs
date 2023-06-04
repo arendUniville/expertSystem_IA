@@ -13,15 +13,16 @@ class Program
         Person person = new Person();
         AttrGroup group = new AttrGroup();
 
-
-
+        bool showPersons = false;
+        bool showGroups = false;
+        bool showMessages = false;
 
 
         Console.Write("Bem vindo ao Sábio. Aperte qualquer tecla para continuar.");
 
-        ConsoleKeyInfo keyInfo = Console.ReadKey();
-        char keyChar = keyInfo.KeyChar;
-
+        //Verificando escolha
+        int choice = VerifyKey();
+        if (choice == 2) return;
 
 
         //Gerando persons
@@ -29,38 +30,46 @@ class Program
 
 
         //Mostrando persons
-        person.ShowMyPersons(list);
+        if(showPersons)
+        {
+            person.ShowMyPersons(list);
+            Console.Write("Esse são os seus personagens. Clique enter para continuar.");
 
 
-        Console.Write("Esse são os seus personagens. Clique enter para continuar.");
-        Console.ReadLine();
+            //Verificando escolha
+            choice = VerifyKey();
+            if (choice == 2) return;
+
+
+            Console.Clear();
+            Console.WriteLine("\n\n\n\n\n\n\n\n\n\n\n");
+
+        }
+
         Console.Clear();
 
 
-
-
         Dictionary<string, string> questions = group.GenerateGroupQuestions(list);
-
-
-
         List<AttrGroup> groups = person.GroupAndCount(list, questions);
 
 
 
-        Console.Clear();
-        Console.WriteLine("\n\n\n\n\n\n\n\n\n\n\n");
-
-
-
         //Mostrando todos os grupos
-        Console.WriteLine("\nSábio: Pelas características dos personagens que você criou, eu achei melhor separar eles da seguinte forma:\n\n");
-        group.ShowAllGourps(groups);
+        if(showGroups)
+        {
+
+            Console.WriteLine("\nSábio: Pelas características dos personagens que você criou, eu achei melhor separar eles da seguinte forma:\n\n");
+            group.ShowAllGourps(groups);
 
 
+            //Verificando escolha
+            choice = VerifyKey();
+            if (choice == 2) return;
+            Console.Clear();
 
-        Console.ReadLine();
-        Console.Clear();
 
+        }
+        
 
 
         //Criando grupos
@@ -77,40 +86,42 @@ class Program
                 groupPower,
                 groupVillain,
                 groupMonster,
-                groupAnimal
+                groupAnimal,
+
+                showMessages
             );
 
 
 
-
         //Inicia mostrando a pergunta do grupo no qual pertence.
-        Console.Write($"O personagem que você escolheu {questions[majorGroup]} (s/n): ");
+        Console.Write($"Sábio: O personagem que você escolheu {questions[majorGroup]} (s/n): ");
 
 
         //Verificando escolha
-        int choice = VerifyKey();
-        if (choice == 0) return;
+        choice = VerifyKey();
+        if (choice == 2) return;
 
 
         Console.Clear();
 
 
-        //
+        //Iniciando lista de possíveis características
         List<AttrGroup> possibleChars = new List<AttrGroup>();
 
 
         if (choice == 1)
         {
 
-            Console.WriteLine($"{groups.OrderByDescending(p => p.Persons.Count).FirstOrDefault()}");
+            //Mostrando o grupo que foi perguntado ao usuário
+            //Console.WriteLine($"{groups.OrderByDescending(p => p.Persons.Count).FirstOrDefault()}");
 
 
-            Console.ReadLine();
-
+            //Adicionando ao grupo de características possíveis o grupo que foi perguntado ao usuário
             possibleChars.Add(groups.OrderByDescending(p => p.Persons.Count).FirstOrDefault());
 
 
-            Console.WriteLine("Possiveis chars:\n");
+            Console.WriteLine("\nSábio: Esses são os possíveis personagens de acordo com a sua resposta:\n");
+            Console.WriteLine("====================");
 
             foreach (AttrGroup g in possibleChars)
             {
@@ -123,17 +134,25 @@ class Program
             }
 
 
+            Console.WriteLine("====================");
+            Console.Write("Aperte enter para continuar.\n");
 
-            Console.ReadLine();
+            //Verificando escolha
+            choice = VerifyKey();
+            if (choice == 2) return;
+
+
 
             Console.Clear();
 
             Console.WriteLine("Aqui 1:");
 
+            //Fazendo a pergunta do grupo atual.
             questions = group.GenerateGroupQuestions(possibleChars.First().Persons.ToList());
 
 
             Console.WriteLine("Aqui 2:");
+
 
             groups = person.GroupAndCount(possibleChars.First().Persons.ToList(), questions);
 
@@ -150,7 +169,7 @@ class Program
             Console.Write("O seu personagem é o vilão do filme em que ele participa? (s/n): ");
             //Verificando escolha
             choice = VerifyKey();
-            if (choice == 0) return;
+            if (choice == 2) return;
 
 
             if (choice == 1)
@@ -158,7 +177,7 @@ class Program
                 Console.Clear();
                 //Console.WriteLine($"O seu personagem é o : {possibleChars.Where(p => p.IsVillain == true).First().Name}");
             }
-            else if (choice == 2)
+            else if (choice == 0)
             {
 
                 //possibleChars = possibleChars.Where(p => p.HavePower == true).ToList();
@@ -208,7 +227,7 @@ class Program
             }
 
         }
-        else if (choice == 2)
+        else if (choice == 0)
         {
 
             foreach (AttrGroup g in groups)
@@ -291,7 +310,7 @@ class Program
             Console.Clear(); 
             Console.WriteLine("\nEnd.\n");
             
-            return 0;
+            return 2;
         }
         else
         {
@@ -302,7 +321,7 @@ class Program
             }
             else if(keyChar == 'n')
             {
-                return 2;
+                return 0;
             }
             else
             {

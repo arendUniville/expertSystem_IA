@@ -101,7 +101,7 @@ class Person
     }
 
 
-    public string GetMajorGroup(AttrGroup? gPower, AttrGroup? gVillain, AttrGroup? gMonster, AttrGroup? gAnimal)
+    public string GetMajorGroup(AttrGroup gPower, AttrGroup gVillain, AttrGroup gMonster, AttrGroup gAnimal, bool msg)
     {
 
         int power;
@@ -145,11 +145,15 @@ class Person
         }
 
 
+        if (msg)
+        {
+            Console.WriteLine($"Total de personagens com poderes: {power}");
+            Console.WriteLine($"Total de personagens vilões: {villain}");
+            Console.WriteLine($"Total de personagens monstros: {monster}");
+            Console.WriteLine($"Total de personagens animais: {animal}");
 
-        Console.WriteLine($"Total de personagens com poderes: {power}");
-        Console.WriteLine($"Total de personagens vilões: {villain}");
-        Console.WriteLine($"Total de personagens monstros: {monster}");
-        Console.WriteLine($"Total de personagens animais: {animal}");
+        }
+        
 
 
 
