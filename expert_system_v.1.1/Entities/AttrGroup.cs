@@ -32,75 +32,74 @@ class AttrGroup
 
 
 
-    public Dictionary<string, string> GenerateGroupQuestions(List<Person> persons, Dictionary<string, string> lasGroup)
+    public Dictionary<string, string> GenerateGroupQuestions(List<Person> persons, Dictionary<string, string> lasGroup, int phase)
     {
-
 
         Dictionary<string, string> questions = new Dictionary<string, string>();
 
-
-        foreach(Person person in persons)
+        if (phase == 1)
         {
-
-            if (person.HavePower)
+            foreach (Person person in persons)
             {
 
-                if (!lasGroup.ContainsKey("HavePower"))
+                if (person.HavePower)
                 {
-                    if (!questions.ContainsKey("HavePower"))
+
+                    if (!lasGroup.ContainsKey("HavePower"))
                     {
-                        questions.Add("HavePower", "possuí algum poder?");
-                        //Console.WriteLine(questions["HavePower"]);
+                        if (!questions.ContainsKey("HavePower"))
+                        {
+                            questions.Add("HavePower", "possuí algum poder?");
+                            //Console.WriteLine(questions["HavePower"]);
+                        }
+                    }
+
+
+                }
+
+                if (person.IsVillain)
+                {
+                    if (!lasGroup.ContainsKey("IsVillain"))
+                    {
+
+                        if (!questions.ContainsKey("IsVillain"))
+                        {
+                            questions.Add("IsVillain", "é um vilão no filme que ele participa?");
+                            //Console.WriteLine(questions["IsVillain"]);
+                        }
+
                     }
                 }
 
-                
-            }
-
-            if (person.IsVillain)
-            {
-                if (!lasGroup.ContainsKey("IsVillain"))
+                if (person.IsMonster)
                 {
-
-                    if (!questions.ContainsKey("IsVillain"))
+                    if (!lasGroup.ContainsKey("IsMonster"))
                     {
-                        questions.Add("IsVillain", "é um vilão no filme que ele participa?");
-                        //Console.WriteLine(questions["IsVillain"]);
+
+                        if (!questions.ContainsKey("IsMonster"))
+                        {
+                            questions.Add("IsMonster", "é um monstro?");
+                            //Console.WriteLine(questions["IsMonster"]);
+                        }
+
                     }
-
                 }
-            }
 
-            if (person.IsMonster)
-            {
-                if (!lasGroup.ContainsKey("IsMonster"))
+                if (person.IsAnimal)
                 {
-
-                    if (!questions.ContainsKey("IsMonster"))
+                    if (!lasGroup.ContainsKey("IsAnimal"))
                     {
-                        questions.Add("IsMonster", "é um monstro?");
-                        //Console.WriteLine(questions["IsMonster"]);
+                        if (!questions.ContainsKey("IsAnimal"))
+                        {
+                            questions.Add("IsAnimal", "é um animal?");
+                            //Console.WriteLine(questions["IsAnimal"]);
+                        }
+
                     }
-
                 }
+
             }
-
-            if(person.IsAnimal)
-            {
-                if (!lasGroup.ContainsKey("IsAnimal"))
-                {
-                    if (!questions.ContainsKey("IsAnimal"))
-                    {
-                        questions.Add("IsAnimal", "é um animal?");
-                        //Console.WriteLine(questions["IsAnimal"]);
-                    }
-
-                }
-            }
-
         }
-
-
 
         return questions;
 

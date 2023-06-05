@@ -11,15 +11,15 @@ class Person
 {
 
     public int? Id { get; set; }
-    public string? Name { get; set; }
+    public string Name { get; set; }
 
-    public string? Movie { get; set; }
-    public string? CorCabelo { get; set; }
+    public string Movie { get; set; }
+    public string CorCabelo { get; set; } //Pode ser do cabelo quanto do pelo do animal
     public bool IsAnimal { get; set; } = false;
     public bool IsMonster { get; set; } = false;
     public bool IsVillain { get; set; } = false;
     public bool HavePower { get; set; } = false;
-    public string? UniqueFeature { get; set; }
+    public string UniqueFeature { get; set; }
 
 
 
@@ -188,9 +188,7 @@ class Person
 
 
 
-
         return majorityGroup;
-
 
     }
 
