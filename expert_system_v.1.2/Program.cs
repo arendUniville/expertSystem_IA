@@ -23,7 +23,6 @@ class Program
         bool lastGroup = false;
 
         bool personFinded = false;
-        string personFindedName = "";
 
         List<Person> list = new List<Person>();
         Dictionary<string, string> questions = new Dictionary<string, string>();
@@ -129,14 +128,7 @@ class Program
 
 
 //(4)---Buscando grupo de características com mais personagens (Aqui pode ser melhorado passando uma lista de AttrGroup ao invés de um por um)
-            AttrGroup majorGroup = person.GetMajorGroup
-                (
-                    groups,
-
-                    questionsOk,
-
-                    showMessages
-                );
+            AttrGroup majorGroup = person.GetMajorGroup(groups, questionsOk, showMessages);
 
 
 //(5)---Faz a pergunta do grupo encontrado no passo 4
@@ -151,9 +143,6 @@ class Program
             Console.Clear();
 
 
-            //Iniciando lista de possíveis características
-            List<AttrGroup> possibleGroups = new List<AttrGroup>();
-
             //Limpando lista de personagens
             list.Clear();
 
@@ -167,6 +156,16 @@ class Program
 
                 //Adicionando ao grupo de características possíveis o grupo que foi perguntado ao usuário
                 list = person.RemovePersonOfFalseAttr(groups.OrderByDescending(p => p.Persons.Count).FirstOrDefault().Persons.ToList());
+
+
+                if (person.IsLastPerson(list))
+                {
+                    personFinded = true;
+
+                    person.ShowWinnerChoice(list);
+
+                    return;
+                }
 
 
                 //Mostrando possíveis personagens
@@ -318,21 +317,18 @@ class Program
             else if (choice == 0)
             {
 
-                //Removendo o major group da lista de groups
-                /*
-                 * foreach (AttrGroup g in groups)
-                {
-                    if (g.Nome != majorGroup.Nome)
-                    {
-                        possibleGroups.Add(g);
-                    }
-                }
-                */
-
-
                 //Adicionando possíveis grupos
                 list = person.RemovePersonOfMajorGroup(groups, majorGroup, choice);
 
+                //Verifica se existe apenas 1 possibilidade.
+                if (person.IsLastPerson(list))
+                {
+                    personFinded = true;
+
+                    person.ShowWinnerChoice(list);
+
+                    return;
+                }
 
                 //Mostrando possíveis personagens
                 person.ShowPossiblePersons(list);
@@ -354,9 +350,6 @@ class Program
 
         }
 
-
-
-        Console.WriteLine($"Sábio: O personagem que você está pensando é: {personFindedName}");
 
     }
 

@@ -46,9 +46,25 @@ class Person
 
 
 
+    //Verify
+    public bool IsLastPerson(List<Person> list)
+    {
+
+        if(list.Count == 1) 
+        { 
+            return true; 
+        }
+        else { return false; }
+
+    }
+
+    public void ShowWinnerChoice(List<Person> list)
+    {
+        Console.WriteLine($"O personagem escolhido é: {list.FirstOrDefault().Name}");
+    }
 
 
-
+    //Groups
     public List<AttrGroup> GroupAndCount(List<Person> list, Dictionary<string, string> questions)
     {
 
@@ -118,7 +134,6 @@ class Person
         return groupPersons;
 
     }
-
 
     public AttrGroup GetMajorGroup(List<AttrGroup> groups, Dictionary<string, string> questionOk, bool msg)
     {
@@ -201,6 +216,7 @@ class Person
 
 
 
+    //Remove or add
     public List<Person> RemovePersonOfMajorGroup(List<AttrGroup> groups, AttrGroup majorGroup, int response)
     {
 
@@ -461,6 +477,9 @@ class Person
     }
 
 
+    
+    
+    //Prints
     public void ShowPossiblePersons(List<Person> list)
     {
 
