@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace expert_system_v._1._0.Entities;
@@ -192,6 +193,134 @@ class Person
 
 
     }
+
+
+
+    public List<Person> PossiblePersons(List<AttrGroup> groups, AttrGroup majorGroup)
+    {
+
+        List<Person> list = new List<Person>();
+
+
+        foreach (AttrGroup g in groups)
+        {
+
+            if (g.Nome != majorGroup.Nome)
+            {
+
+                foreach (Person p in g.Persons)
+                {
+
+                    bool discarted = false;
+
+                    //Verifica se possuí atributo do maior grupo anterior
+                    if (nameof(p.HavePower) == majorGroup.Nome)
+                    {
+                        //Caso seja o atributo do maior grupo anterior, verifica se o atributo é verdadeiro
+                        if (p.HavePower)
+                        {
+                            //Se for verdadeiro, o personagem pode ser descartado (Objetivo é remover os personagens que possuem o atributo do grupo anterior)
+                            discarted = true;
+                        }
+                    }
+
+                    if (nameof(p.IsVillain) == majorGroup.Nome)
+                    {
+                        if (p.IsVillain)
+                        {
+                            discarted = true;
+                        }
+                    }
+
+                    if (nameof(p.IsMonster) == majorGroup.Nome)
+                    {
+                        if (p.IsMonster)
+                        {
+                            discarted = true;
+                        }
+                    }
+
+                    if (nameof(p.IsAnimal) == majorGroup.Nome)
+                    {
+                        if (p.IsAnimal)
+                        {
+                            discarted = true;
+                        }
+                    }
+
+
+
+                    //Caso o personagem não tenha nenhum atributo do grupo anterior.
+                    if (!discarted)
+                    {
+
+                        //Verifica se possuí o atributo
+                        if (p.HavePower)
+                        {
+
+                            //Tenta encontrar o personagem na lista atual
+                            bool exist = list.Any(per => per.Name == p.Name);
+
+
+                            //Caso não foi encontrado na lista
+                            if (!exist)
+                            {
+                                //Adiciona o personagem a lista
+                                list.Add(p);
+                                Console.WriteLine($"{g.Nome} is added by {p.Name}.");
+                            }
+                        }
+
+                        if (p.IsVillain)
+                        {
+
+                            bool exist = list.Any(per => per.Name == p.Name);
+
+                            if (!exist)
+                            {
+                                list.Add(p);
+                                Console.WriteLine($"{g.Nome} is added by {p.Name}.");
+                            }
+                        }
+
+
+                        if (p.IsMonster)
+                        {
+
+                            bool exist = list.Any(per => per.Name == p.Name);
+
+                            if (!exist)
+                            {
+                                list.Add(p);
+                                Console.WriteLine($"{g.Nome} is added by {p.Name}.");
+                            }
+                        }
+
+                        if (p.IsAnimal)
+                        {
+
+                            bool exist = list.Any(per => per.Name == p.Name);
+
+                            if (!exist)
+                            {
+                                list.Add(p);
+                                Console.WriteLine($"{g.Nome} is added by {p.Name}.");
+                            }
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+
+        return list;
+
+    }
+
 
     public void ShowMyPersons(List<Person> persons)
     {

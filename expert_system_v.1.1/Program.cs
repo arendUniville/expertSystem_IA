@@ -111,7 +111,7 @@ class Program
 
 
         //Iniciando lista de possíveis características
-        List<AttrGroup> possibleChars = new List<AttrGroup>();
+        List<AttrGroup> possibleGroups = new List<AttrGroup>();
 
         //Limpando lista de personagens
         list.Clear();
@@ -125,13 +125,13 @@ class Program
 
 
             //Adicionando ao grupo de características possíveis o grupo que foi perguntado ao usuário
-            possibleChars.Add(groups.OrderByDescending(p => p.Persons.Count).FirstOrDefault());
+            possibleGroups.Add(groups.OrderByDescending(p => p.Persons.Count).FirstOrDefault());
 
 
             Console.WriteLine("\nSábio: Esses são os possíveis personagens de acordo com a sua resposta:\n");
             Console.WriteLine("====================");
 
-            foreach (AttrGroup g in possibleChars)
+            foreach (AttrGroup g in possibleGroups)
             {
 
                 foreach (Person p in g.Persons)
@@ -315,6 +315,21 @@ class Program
         else if (choice == 0)
         {
 
+            //Removendo o major group da lista de groups
+            foreach(AttrGroup g in groups)
+            {
+                if(g.Nome != majorGroup.Nome)
+                {
+                    possibleGroups.Add(g);   
+                }
+            }
+
+
+            //Adicionando possíveis grupos
+            list = person.PossiblePersons(groups, majorGroup);
+
+
+            /*
             //Adicionando possíveis grupos
             foreach (AttrGroup g in groups)
             {
@@ -430,7 +445,7 @@ class Program
 
             }
 
-
+            */
             
             Console.WriteLine("\nSábio: Esses são os possíveis personagens de acordo com a sua resposta:\n");
             Console.WriteLine("====================");
@@ -549,12 +564,12 @@ class Program
 
 
             //Pega o grupo com mais persons vinculados
-            possibleChars.Add(groups.OrderByDescending(p => p.Persons.Count).FirstOrDefault());
+            possibleGroups.Add(groups.OrderByDescending(p => p.Persons.Count).FirstOrDefault());
 
 
             Console.WriteLine("Possiveis chars:\n");
 
-            foreach (AttrGroup g in possibleChars)
+            foreach (AttrGroup g in possibleGroups)
             {
 
                 foreach (Person p in g.Persons)
@@ -577,7 +592,7 @@ class Program
 
             Console.WriteLine("Aqui 2:");
 
-            groups = person.GroupAndCount(possibleChars.First().Persons.ToList(), questions);
+            groups = person.GroupAndCount(possibleGroups.First().Persons.ToList(), questions);
 
 
         }
