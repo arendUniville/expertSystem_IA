@@ -48,7 +48,7 @@ class Program
 
 
 
-        //(1)---Gerando persons
+//(1)---Gerando persons
         if (phase == 1)
             list = persons.GeneratePersons();
 
@@ -62,15 +62,14 @@ class Program
             Console.WriteLine($"An error occured in generate persons. Phase {phase} - Step 1");
 
 
-        Console.WriteLine($"Phase {phase}");
+        Console.WriteLine($"Phase {phase}\n\n");
 
-
-
+        
         //Mostrando persons
         if (showPersons)
         {
             person.ShowMyPersons(list);
-            Console.Write("Esse são os seus personagens. Clique enter para continuar.");
+            Console.Write("\n\nEsse são os seus personagens. Clique enter para continuar.");
 
 
             //Verificando escolha
@@ -102,8 +101,6 @@ class Program
             }
 
 
-
-
 //(3.2)---Gerando grupos de características
 
             //Verificando se é o último grupo
@@ -114,12 +111,11 @@ class Program
             }
 
 
-
             //Mostrando todos os grupos
             if (showGroups)
             {
 
-                Console.WriteLine("\nSábio: Pelas características dos personagens que você criou, eu achei melhor separar eles da seguinte forma:\n\n");
+                Console.WriteLine("\n\nSábio: Pelas características dos personagens que você criou, eu achei melhor separar eles da seguinte forma:\n\n");
                 group.ShowAllGourps(groups);
 
 
@@ -405,6 +401,8 @@ class Program
 
 
 
+
+                /*
                 Console.WriteLine("STEP 1");
 
 
@@ -478,7 +476,7 @@ class Program
                     if (choice == 2) return;
                 }
 
-                */
+                
 
                 //Gerando grupos
                 groups = person.GroupAndCount(list, questions);
@@ -536,9 +534,9 @@ class Program
                 //Pois se a pergunta que será feita todos os persons possuem como 'true', não há necessidade em saber.
 
 
+                */
 
-
-
+                /*
 
                 //Inicia mostrando a pergunta do grupo no qual pertence.
                 Console.Write($"Sábio: O personagem que você escolheu {questions[majorGroup.Nome]} (s/n): ");
@@ -574,7 +572,7 @@ class Program
 
                 Console.ReadLine();
 
-                /*
+                
                 Console.Clear();
 
                 Console.WriteLine("Aqui 1:");
