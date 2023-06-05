@@ -119,7 +119,7 @@ class Person
     }
 
 
-    public string GetMajorGroup(AttrGroup gPower, AttrGroup gVillain, AttrGroup gMonster, AttrGroup gAnimal, Dictionary<string, string> questionOk, bool msg)
+    public AttrGroup GetMajorGroup(AttrGroup gPower, AttrGroup gVillain, AttrGroup gMonster, AttrGroup gAnimal, Dictionary<string, string> questionOk, bool msg)
     {
 
         int power;
@@ -134,7 +134,7 @@ class Person
         monster = gMonster != null ? gMonster.Persons.Count() : 0;
         animal = gAnimal != null ? gAnimal.Persons.Count() : 0;
 
-        var majorityGroup = "";
+        AttrGroup majorityGroup = null;
         int majorGroupValue = 0;
 
 
@@ -143,7 +143,7 @@ class Person
             if (!questionOk.ContainsKey("HavePower"))
             {
                 majorGroupValue = power;
-                majorityGroup = "HavePower";
+                majorityGroup = gPower;
             }
         }
 
@@ -152,7 +152,7 @@ class Person
             if (!questionOk.ContainsKey("IsVillain"))
             {
                 majorGroupValue = villain;
-                majorityGroup = "IsVillain";
+                majorityGroup = gVillain;
             }
 
         }
@@ -162,7 +162,7 @@ class Person
             if (!questionOk.ContainsKey("IsMonster"))
             {
                 majorGroupValue = monster;
-                majorityGroup = "IsMonster";
+                majorityGroup = gMonster;
             }
         }
 
@@ -171,7 +171,7 @@ class Person
             if (!questionOk.ContainsKey("IsAnimal"))
             {
                 majorGroupValue = animal;
-                majorityGroup = "IsAnimal";
+                majorityGroup = gAnimal;
             }
         }
 

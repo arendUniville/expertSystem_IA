@@ -32,7 +32,7 @@ class Program
 
 
         //Mostrando persons
-        if(showPersons)
+        if (showPersons)
         {
             person.ShowMyPersons(list);
             Console.Write("Esse são os seus personagens. Clique enter para continuar.");
@@ -57,7 +57,7 @@ class Program
 
 
         //Mostrando todos os grupos
-        if(showGroups)
+        if (showGroups)
         {
 
             Console.WriteLine("\nSábio: Pelas características dos personagens que você criou, eu achei melhor separar eles da seguinte forma:\n\n");
@@ -71,10 +71,10 @@ class Program
 
 
         }
-        
 
 
-        //Criando grupos
+
+        //Declarando grupos
         AttrGroup groupPower = groups.Where(p => p.Nome == "HavePower").FirstOrDefault();
         AttrGroup groupVillain = groups.Where(v => v.Nome == "IsVillain").FirstOrDefault();
         AttrGroup groupMonster = groups.Where(p => p.Nome == "IsMonster").FirstOrDefault();
@@ -83,7 +83,7 @@ class Program
 
 
         //Verificando grupo com mais persons
-        string majorGroup = person.GetMajorGroup
+        AttrGroup majorGroup = person.GetMajorGroup
             (
                 groupPower,
                 groupVillain,
@@ -96,10 +96,11 @@ class Program
             );
 
 
+        Console.WriteLine("STEP 1");
 
         //Inicia mostrando a pergunta do grupo no qual pertence.
-        Console.Write($"Sábio: O personagem que você escolheu {questions[majorGroup]} (s/n): ");
-        questionsOk.Add(majorGroup, questions[majorGroup]);
+        Console.Write($"Sábio: O personagem que você escolheu {questions[majorGroup.Nome]} (s/n): ");
+        questionsOk.Add(majorGroup.Nome, questions[majorGroup.Nome]);
 
         //Verificando escolha
         choice = VerifyKey();
@@ -111,6 +112,9 @@ class Program
 
         //Iniciando lista de possíveis características
         List<AttrGroup> possibleChars = new List<AttrGroup>();
+
+        //Limpando lista de personagens
+        list.Clear();
 
 
         if (choice == 1)
@@ -161,13 +165,13 @@ class Program
 
                 List<Person> act = new List<Person>();
 
-                Console.WriteLine($"Goup name: {g.Nome}");
+                Console.WriteLine($"Group name: {g.Nome}");
 
                 if (!questionsOk.ContainsKey(g.Nome))
                 {
                     act = g.Persons.ToList();
 
-                    foreach(Person p in act)
+                    foreach (Person p in act)
                     {
                         actualPersons.Add(p);
                     }
@@ -178,14 +182,14 @@ class Program
             }
 
 
-            
+
             //Gerando perguntas
             questions = group.GenerateGroupQuestions(actualPersons, questionsOk);
             //Mostrando perguntas geradas
             if (showGeneratedQuestions)
             {
 
-                foreach(string q in questions.Values)
+                foreach (string q in questions.Values)
                 {
                     Console.WriteLine(q);
                 }
@@ -195,7 +199,7 @@ class Program
                 choice = VerifyKey();
                 if (choice == 2) return;
             }
-            
+
 
             //Gerando grupos
             groups = person.GroupAndCount(actualPersons, questions);
@@ -234,8 +238,8 @@ class Program
 
 
             //Inicia mostrando a pergunta do grupo no qual pertence.
-            Console.Write($"Sábio: O personagem que você escolheu {questions[majorGroup]} (s/n): ");
-            questionsOk.Add(majorGroup, questions[majorGroup]);
+            Console.Write($"Sábio: O personagem que você escolheu {questions[majorGroup.Nome]} (s/n): ");
+            questionsOk.Add(majorGroup.Nome, questions[majorGroup.Nome]);
 
 
             Console.ReadLine();
@@ -315,25 +319,126 @@ class Program
             foreach (AttrGroup g in groups)
             {
 
-                if (g.Nome != majorGroup)
+                if (g.Nome != majorGroup.Nome)
                 {
-                    possibleChars.Add(g);
+
+                    foreach (Person p in g.Persons)
+                    {
+
+                        bool discarted = false;
+
+                        //Verifica se possuí atributo do maior grupo anterior
+                        if (nameof(p.HavePower) == majorGroup.Nome)
+                        {
+                            //Caso seja o atributo do maior grupo anterior, verifica se o atributo é verdadeiro
+                            if (p.HavePower)
+                            {
+                                //Se for verdadeiro, o personagem pode ser descartado (Objetivo é remover os personagens que possuem o atributo do grupo anterior)
+                                discarted = true;
+                            }
+                        }
+
+                        if (nameof(p.IsVillain) == majorGroup.Nome)
+                        {
+                            if (p.IsVillain)
+                            {
+                                discarted = true;
+                            }
+                        }
+
+                        if (nameof(p.IsMonster) == majorGroup.Nome)
+                        {
+                            if (p.IsMonster)
+                            {
+                                discarted = true;
+                            }
+                        }
+
+                        if (nameof(p.IsAnimal) == majorGroup.Nome)
+                        {
+                            if (p.IsAnimal)
+                            {
+                                discarted = true;
+                            }
+                        }
+
+
+
+                        //Caso o personagem não tenha nenhum atributo do grupo anterior.
+                        if (!discarted)
+                        {
+
+                            //Verifica se possuí o atributo
+                            if (p.HavePower)
+                            {
+
+                                //Tenta encontrar o personagem na lista atual
+                                bool exist = list.Any(per => per.Name == p.Name);
+
+
+                                //Caso não foi encontrado na lista
+                                if (!exist)
+                                {
+                                    //Adiciona o personagem a lista
+                                    list.Add(p);
+                                    Console.WriteLine($"{g.Nome} is added by {p.Name}.");
+                                }
+                            }
+
+                            if (p.IsVillain)
+                            {
+
+                                bool exist = list.Any(per => per.Name == p.Name);
+
+                                if (!exist)
+                                {
+                                    list.Add(p);
+                                    Console.WriteLine($"{g.Nome} is added by {p.Name}.");
+                                }
+                            }
+
+
+                            if (p.IsMonster)
+                            {
+
+                                bool exist = list.Any(per => per.Name == p.Name);
+
+                                if (!exist)
+                                {
+                                    list.Add(p);
+                                    Console.WriteLine($"{g.Nome} is added by {p.Name}.");
+                                }
+                            }
+
+                            if (p.IsAnimal)
+                            {
+
+                                bool exist = list.Any(per => per.Name == p.Name);
+
+                                if (!exist)
+                                {
+                                    list.Add(p);
+                                    Console.WriteLine($"{g.Nome} is added by {p.Name}.");
+                                }
+                            }
+
+                        }
+
+                    }
+
                 }
 
             }
 
 
+            
             Console.WriteLine("\nSábio: Esses são os possíveis personagens de acordo com a sua resposta:\n");
             Console.WriteLine("====================");
 
-            foreach (AttrGroup g in possibleChars)
+
+            foreach (Person p in list)
             {
-
-                foreach (Person p in g.Persons)
-                {
-                    Console.WriteLine(p.Name);
-                }
-
+                Console.WriteLine(p.Name);
             }
 
 
@@ -348,11 +453,102 @@ class Program
 
             Console.Clear();
 
+
+            List<Person> actualPersonsQuestions = new List<Person>();
+
+
+
+
+
+            //Passa por cada grupo e verifica se a pergunta desse grupo já não foi chamada, se não foi, ele vai pegar
+            //os pesonagens e adicionando em uma lista para que em seguida seja gerado o grupo de perguntas.
+            foreach (AttrGroup g in groups)
+            {
+
+                List<Person> act = new List<Person>();
+
+                Console.WriteLine($"Group name: {g.Nome}");
+
+                if (!questionsOk.ContainsKey(g.Nome))
+                {
+                    act = g.Persons.ToList();
+
+                    foreach (Person p in act)
+                    {
+                        actualPersonsQuestions.Add(p);
+                    }
+
+                }
+
+            }
+
+
+
+            //Gerando perguntas
+            questions = group.GenerateGroupQuestions(actualPersonsQuestions, questionsOk);
+            //Mostrando perguntas geradas
+            if (showGeneratedQuestions)
+            {
+
+                foreach (string q in questions.Values)
+                {
+                    Console.WriteLine(q);
+                }
+
+                Console.WriteLine("Gerou as perguntas.");
+                //Verificando escolha
+                choice = VerifyKey();
+                if (choice == 2) return;
+            }
+
+
+            //Gerando grupos
+            groups = person.GroupAndCount(actualPersonsQuestions, questions);
+            //Mostrando todos os grupos
+            if (showGroups)
+            {
+
+                Console.WriteLine("\nSábio: Pelas características dos personagens que você criou, eu achei melhor separar eles da seguinte forma:\n\n");
+                group.ShowAllGourps(groups);
+
+
+                //Verificando escolha
+                choice = VerifyKey();
+                if (choice == 2) return;
+                Console.Clear();
+
+            }
+
+
+            Console.Clear();
+
+
+            //Verificando grupo com mais persons
+            majorGroup = person.GetMajorGroup
+                (
+                    groupPower,
+                    groupVillain,
+                    groupMonster,
+                    groupAnimal,
+
+                    questionsOk,
+
+                    showMessages
+                );
+
+
+
+            //Inicia mostrando a pergunta do grupo no qual pertence.
+            Console.Write($"Sábio: O personagem que você escolheu {questions[majorGroup.Nome]} (s/n): ");
+            questionsOk.Add(majorGroup.Nome, questions[majorGroup.Nome]);
+
+
+
+            //Mostrando o grupo com mais persons vinculados
             Console.WriteLine($"{groups.OrderByDescending(p => p.Persons.Count).FirstOrDefault()}");
 
 
-            Console.ReadLine();
-
+            //Pega o grupo com mais persons vinculados
             possibleChars.Add(groups.OrderByDescending(p => p.Persons.Count).FirstOrDefault());
 
 
@@ -385,7 +581,7 @@ class Program
 
 
         }
-        else if(choice == 3)
+        else if (choice == 3)
         {
             Console.Clear();
             Console.WriteLine("Aperte uma tecla possível para continuar.");
@@ -404,19 +600,19 @@ class Program
         if (keyChar == '1')
         {
 
-            Console.Clear(); 
+            Console.Clear();
             Console.WriteLine("\nEnd.\n");
-            
+
             return 2;
         }
         else
         {
 
-            if(keyChar == 's')
+            if (keyChar == 's')
             {
                 return 1;
             }
-            else if(keyChar == 'n')
+            else if (keyChar == 'n')
             {
                 return 0;
             }
