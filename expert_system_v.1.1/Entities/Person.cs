@@ -196,7 +196,7 @@ class Person
 
 
 
-    public List<Person> PossiblePersons(List<AttrGroup> groups, AttrGroup majorGroup)
+    public List<Person> RemovePersonByMajorGroup(List<AttrGroup> groups, AttrGroup majorGroup)
     {
 
         List<Person> list = new List<Person>();

@@ -326,127 +326,9 @@ class Program
 
 
             //Adicionando possíveis grupos
-            list = person.PossiblePersons(groups, majorGroup);
+            list = person.RemovePersonByMajorGroup(groups, majorGroup);
 
 
-            /*
-            //Adicionando possíveis grupos
-            foreach (AttrGroup g in groups)
-            {
-
-                if (g.Nome != majorGroup.Nome)
-                {
-
-                    foreach (Person p in g.Persons)
-                    {
-
-                        bool discarted = false;
-
-                        //Verifica se possuí atributo do maior grupo anterior
-                        if (nameof(p.HavePower) == majorGroup.Nome)
-                        {
-                            //Caso seja o atributo do maior grupo anterior, verifica se o atributo é verdadeiro
-                            if (p.HavePower)
-                            {
-                                //Se for verdadeiro, o personagem pode ser descartado (Objetivo é remover os personagens que possuem o atributo do grupo anterior)
-                                discarted = true;
-                            }
-                        }
-
-                        if (nameof(p.IsVillain) == majorGroup.Nome)
-                        {
-                            if (p.IsVillain)
-                            {
-                                discarted = true;
-                            }
-                        }
-
-                        if (nameof(p.IsMonster) == majorGroup.Nome)
-                        {
-                            if (p.IsMonster)
-                            {
-                                discarted = true;
-                            }
-                        }
-
-                        if (nameof(p.IsAnimal) == majorGroup.Nome)
-                        {
-                            if (p.IsAnimal)
-                            {
-                                discarted = true;
-                            }
-                        }
-
-
-
-                        //Caso o personagem não tenha nenhum atributo do grupo anterior.
-                        if (!discarted)
-                        {
-
-                            //Verifica se possuí o atributo
-                            if (p.HavePower)
-                            {
-
-                                //Tenta encontrar o personagem na lista atual
-                                bool exist = list.Any(per => per.Name == p.Name);
-
-
-                                //Caso não foi encontrado na lista
-                                if (!exist)
-                                {
-                                    //Adiciona o personagem a lista
-                                    list.Add(p);
-                                    Console.WriteLine($"{g.Nome} is added by {p.Name}.");
-                                }
-                            }
-
-                            if (p.IsVillain)
-                            {
-
-                                bool exist = list.Any(per => per.Name == p.Name);
-
-                                if (!exist)
-                                {
-                                    list.Add(p);
-                                    Console.WriteLine($"{g.Nome} is added by {p.Name}.");
-                                }
-                            }
-
-
-                            if (p.IsMonster)
-                            {
-
-                                bool exist = list.Any(per => per.Name == p.Name);
-
-                                if (!exist)
-                                {
-                                    list.Add(p);
-                                    Console.WriteLine($"{g.Nome} is added by {p.Name}.");
-                                }
-                            }
-
-                            if (p.IsAnimal)
-                            {
-
-                                bool exist = list.Any(per => per.Name == p.Name);
-
-                                if (!exist)
-                                {
-                                    list.Add(p);
-                                    Console.WriteLine($"{g.Nome} is added by {p.Name}.");
-                                }
-                            }
-
-                        }
-
-                    }
-
-                }
-
-            }
-
-            */
-            
             Console.WriteLine("\nSábio: Esses são os possíveis personagens de acordo com a sua resposta:\n");
             Console.WriteLine("====================");
 
@@ -466,6 +348,29 @@ class Program
 
 
 
+
+            //Gerando perguntas
+            questions = group.GenerateGroupQuestions(list, questionsOk);
+            //Mostrando perguntas geradas
+            if (showGeneratedQuestions)
+            {
+
+                foreach (string q in questions.Values)
+                {
+                    Console.WriteLine(q);
+                }
+
+                Console.WriteLine("Gerou as perguntas.");
+                //Verificando escolha
+                choice = VerifyKey();
+                if (choice == 2) return;
+
+            }
+
+
+
+            Console.ReadLine();
+
             Console.Clear();
 
 
@@ -474,7 +379,7 @@ class Program
 
 
 
-
+            /*
             //Passa por cada grupo e verifica se a pergunta desse grupo já não foi chamada, se não foi, ele vai pegar
             //os pesonagens e adicionando em uma lista para que em seguida seja gerado o grupo de perguntas.
             foreach (AttrGroup g in groups)
@@ -496,7 +401,7 @@ class Program
                 }
 
             }
-
+            */
 
 
             //Gerando perguntas
