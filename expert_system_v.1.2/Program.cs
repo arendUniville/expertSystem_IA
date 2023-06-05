@@ -128,22 +128,10 @@ class Program
             }
 
 
-
-            //Declarando grupos
-            AttrGroup groupPower = groups.Where(p => p.Nome == "HavePower").FirstOrDefault();
-            AttrGroup groupVillain = groups.Where(v => v.Nome == "IsVillain").FirstOrDefault();
-            AttrGroup groupMonster = groups.Where(p => p.Nome == "IsMonster").FirstOrDefault();
-            AttrGroup groupAnimal = groups.Where(p => p.Nome == "IsAnimal").FirstOrDefault();
-
-
-
 //(4)---Buscando grupo de características com mais personagens (Aqui pode ser melhorado passando uma lista de AttrGroup ao invés de um por um)
             AttrGroup majorGroup = person.GetMajorGroup
                 (
-                    groupPower,
-                    groupVillain,
-                    groupMonster,
-                    groupAnimal,
+                    groups,
 
                     questionsOk,
 

@@ -120,8 +120,15 @@ class Person
     }
 
 
-    public AttrGroup GetMajorGroup(AttrGroup gPower, AttrGroup gVillain, AttrGroup gMonster, AttrGroup gAnimal, Dictionary<string, string> questionOk, bool msg)
+    public AttrGroup GetMajorGroup(List<AttrGroup> groups, Dictionary<string, string> questionOk, bool msg)
     {
+
+
+        AttrGroup gPower = groups.Where(p => p.Nome == "HavePower").FirstOrDefault();
+        AttrGroup gVillain = groups.Where(v => v.Nome == "IsVillain").FirstOrDefault();
+        AttrGroup gMonster = groups.Where(p => p.Nome == "IsMonster").FirstOrDefault();
+        AttrGroup gAnimal = groups.Where(p => p.Nome == "IsAnimal").FirstOrDefault();
+
 
         int power;
         int villain;
