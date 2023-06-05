@@ -178,24 +178,12 @@ class Program
 
 
                 //Adicionando ao grupo de características possíveis o grupo que foi perguntado ao usuário
-                possibleGroups.Add(groups.OrderByDescending(p => p.Persons.Count).FirstOrDefault());
+                list = person.RemovePersonOfFalseAttr(groups.OrderByDescending(p => p.Persons.Count).FirstOrDefault().Persons.ToList());
 
 
-                Console.WriteLine("\nSábio: Esses são os possíveis personagens de acordo com a sua resposta:\n");
-                Console.WriteLine("====================");
+                //Mostrando possíveis personagens
+                person.ShowPossiblePersons(list);
 
-                foreach (AttrGroup g in possibleGroups)
-                {
-
-                    foreach (Person p in g.Persons)
-                    {
-                        Console.WriteLine(p.Name);
-                    }
-
-                }
-
-                Console.WriteLine("====================");
-                Console.Write("\nAperte enter para continuar. ");
 
                 //Verificando escolha
                 choice = VerifyKey();
@@ -206,13 +194,13 @@ class Program
                 Console.Clear();
 
 
-                List<Person> actualPersons = new List<Person>();
+                //List<Person> actualPersons = new List<Person>();
 
 
                 //Fazendo a pergunta do grupo atual.
 
 
-
+                /*
                 foreach (AttrGroup g in groups)
                 {
 
@@ -328,35 +316,7 @@ class Program
 
                     bool finalChoice = false;
 
-                    while (!finalChoice)
-                    {
-
-
-                        /*foreach (Person p in possibleChars)
-                        {
-
-                            Console.WriteLine($"O personagem escolhido é {p.UniqueFeature}? (s/n)");
-                            choice = Console.ReadLine();
-
-                            if (choice == "s")
-                            {
-                                Console.Clear();
-                                Console.WriteLine($"O seu personagem é o {p.Name}");
-
-                                finalChoice = true;
-
-                                break;
-                            }
-                            else
-                            {
-                                Console.Clear();
-                            }
-
-                        }
-                        */
-
-                    }
-
+                    
 
                 }
                 else if (choice == 3)
@@ -364,22 +324,26 @@ class Program
                     Console.WriteLine("Escolha inválida.");
                 }
 
+                */
+
             }
             else if (choice == 0)
             {
 
                 //Removendo o major group da lista de groups
-                foreach (AttrGroup g in groups)
+                /*
+                 * foreach (AttrGroup g in groups)
                 {
                     if (g.Nome != majorGroup.Nome)
                     {
                         possibleGroups.Add(g);
                     }
                 }
+                */
 
 
                 //Adicionando possíveis grupos
-                list = person.RemovePersonByMajorGroup(groups, majorGroup, choice);
+                list = person.RemovePersonOfMajorGroup(groups, majorGroup, choice);
 
 
                 //Mostrando possíveis personagens
