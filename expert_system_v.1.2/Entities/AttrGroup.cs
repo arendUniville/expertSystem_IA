@@ -49,7 +49,7 @@ class AttrGroup
                     {
                         if (!questions.ContainsKey("HavePower"))
                         {
-                            questions.Add("HavePower", "possuí algum poder?");
+                            questions.Add("HavePower", "possuí algum poder");
                             //Console.WriteLine(questions["HavePower"]);
                         }
                     }
@@ -64,7 +64,7 @@ class AttrGroup
 
                         if (!questions.ContainsKey("IsVillain"))
                         {
-                            questions.Add("IsVillain", "é um vilão no filme que ele participa?");
+                            questions.Add("IsVillain", "é um vilão no filme que ele participa");
                             //Console.WriteLine(questions["IsVillain"]);
                         }
 
@@ -78,7 +78,7 @@ class AttrGroup
 
                         if (!questions.ContainsKey("IsMonster"))
                         {
-                            questions.Add("IsMonster", "é um monstro?");
+                            questions.Add("IsMonster", "é um monstro");
                             //Console.WriteLine(questions["IsMonster"]);
                         }
 
@@ -91,7 +91,7 @@ class AttrGroup
                     {
                         if (!questions.ContainsKey("IsAnimal"))
                         {
-                            questions.Add("IsAnimal", "é um animal?");
+                            questions.Add("IsAnimal", "é um animal");
                             //Console.WriteLine(questions["IsAnimal"]);
                         }
 
@@ -104,6 +104,7 @@ class AttrGroup
         return questions;
 
     }
+
 
 
 

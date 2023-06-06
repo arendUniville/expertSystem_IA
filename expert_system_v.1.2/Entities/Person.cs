@@ -50,9 +50,9 @@ class Person
     public bool IsLastPerson(List<Person> list)
     {
 
-        if(list.Count == 1) 
-        { 
-            return true; 
+        if (list.Count == 1)
+        {
+            return true;
         }
         else { return false; }
 
@@ -216,302 +216,537 @@ class Person
 
 
 
-    //Remove or add
-    public List<Person> RemovePersonOfMajorGroup(List<AttrGroup> groups, AttrGroup majorGroup, int response)
+    //Verificar personagens
+    public List<Person> ScanGroups(List<AttrGroup> groups, Dictionary<string, string> questionsOk)
     {
 
-        List<Person> list = new List<Person>();
+        List<Person> pResult = new List<Person>();
+        AttrGroup minorGroup = null;
 
-        if (response == 0)
+
+
+        //Buscando o menor grupo
+        foreach (AttrGroup g in groups)
         {
-            foreach (AttrGroup g in groups)
+            if (g.Total == 1)
             {
-
-                if (g.Nome != majorGroup.Nome)
-                {
-
-                    foreach (Person p in g.Persons)
-                    {
-
-                        bool discarted = false;
-
-                        //Verifica se possuí atributo do maior grupo anterior
-                        if (nameof(p.HavePower) == majorGroup.Nome)
-                        {
-                            //Caso seja o atributo do maior grupo anterior, verifica se o atributo é verdadeiro
-                            if (p.HavePower)
-                            {
-                                //Se for verdadeiro, o personagem pode ser descartado (Objetivo é remover os personagens que possuem o atributo do grupo anterior)
-                                discarted = true;
-                            }
-                        }
-
-                        if (nameof(p.IsVillain) == majorGroup.Nome)
-                        {
-                            if (p.IsVillain)
-                            {
-                                discarted = true;
-                            }
-                        }
-
-                        if (nameof(p.IsMonster) == majorGroup.Nome)
-                        {
-                            if (p.IsMonster)
-                            {
-                                discarted = true;
-                            }
-                        }
-
-                        if (nameof(p.IsAnimal) == majorGroup.Nome)
-                        {
-                            if (p.IsAnimal)
-                            {
-                                discarted = true;
-                            }
-                        }
-
-
-
-                        //Caso o personagem não tenha nenhum atributo do grupo anterior.
-                        if (!discarted)
-                        {
-
-                            //Verifica se possuí o atributo
-                            if (p.HavePower)
-                            {
-
-                                //Tenta encontrar o personagem na lista atual
-                                bool exist = list.Any(per => per.Name == p.Name);
-
-
-                                //Caso não foi encontrado na lista
-                                if (!exist)
-                                {
-                                    //Adiciona o personagem a lista
-                                    list.Add(p);
-                                    Console.WriteLine($"{g.Nome} is added by {p.Name}.");
-                                }
-                            }
-
-                            if (p.IsVillain)
-                            {
-
-                                bool exist = list.Any(per => per.Name == p.Name);
-
-                                if (!exist)
-                                {
-                                    list.Add(p);
-                                    Console.WriteLine($"{g.Nome} is added by {p.Name}.");
-                                }
-                            }
-
-
-                            if (p.IsMonster)
-                            {
-
-                                bool exist = list.Any(per => per.Name == p.Name);
-
-                                if (!exist)
-                                {
-                                    list.Add(p);
-                                    Console.WriteLine($"{g.Nome} is added by {p.Name}.");
-                                }
-                            }
-
-                            if (p.IsAnimal)
-                            {
-
-                                bool exist = list.Any(per => per.Name == p.Name);
-
-                                if (!exist)
-                                {
-                                    list.Add(p);
-                                    Console.WriteLine($"{g.Nome} is added by {p.Name}.");
-                                }
-                            }
-
-                        }
-
-                    }
-
-                }
-
+                pResult.Add(g.Persons.First());
             }
         }
-        else if (response == 1)
+
+
+        if (pResult != null)
         {
-            foreach (AttrGroup g in groups)
+            if(pResult.Count == 1) 
             {
+                return pResult;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        else
+        {
+            return null;
+        }
 
-                if (g.Nome == majorGroup.Nome)
+
+        //Verificando se existe personagem diferente de todos
+
+        /*
+        foreach (Person p in minorGroup.Persons)
+        {
+
+            int countAttr = 0;
+
+
+            //Verificando quantos atributos restaram
+            if(p.HavePower) 
+            {
+                if (!questionsOk.ContainsKey("HavePower"))
                 {
-
-                    foreach (Person p in g.Persons)
-                    {
-
-                        bool discarted = false;
-
-                        //Verifica se possuí atributo do maior grupo anterior
-                        if (nameof(p.HavePower) != majorGroup.Nome)
-                        {
-                            //Caso seja o atributo do maior grupo anterior, verifica se o atributo é verdadeiro
-                            if (p.HavePower)
-                            {
-                                //Se for verdadeiro, o personagem pode ser descartado (Objetivo é remover os personagens que possuem o atributo do grupo anterior)
-                                discarted = true;
-                            }
-                        }
-
-                        if (nameof(p.IsVillain) == majorGroup.Nome)
-                        {
-                            if (p.IsVillain)
-                            {
-                                discarted = true;
-                            }
-                        }
-
-                        if (nameof(p.IsMonster) == majorGroup.Nome)
-                        {
-                            if (p.IsMonster)
-                            {
-                                discarted = true;
-                            }
-                        }
-
-                        if (nameof(p.IsAnimal) == majorGroup.Nome)
-                        {
-                            if (p.IsAnimal)
-                            {
-                                discarted = true;
-                            }
-                        }
-
-
-
-                        //Caso o personagem não tenha nenhum atributo do grupo anterior.
-                        if (!discarted)
-                        {
-
-                            //Verifica se possuí o atributo
-                            if (p.HavePower)
-                            {
-
-                                //Tenta encontrar o personagem na lista atual
-                                bool exist = list.Any(per => per.Name == p.Name);
-
-
-                                //Caso não foi encontrado na lista
-                                if (!exist)
-                                {
-                                    //Adiciona o personagem a lista
-                                    list.Add(p);
-                                    Console.WriteLine($"{g.Nome} is added by {p.Name}.");
-                                }
-                            }
-
-                            if (p.IsVillain)
-                            {
-
-                                bool exist = list.Any(per => per.Name == p.Name);
-
-                                if (!exist)
-                                {
-                                    list.Add(p);
-                                    Console.WriteLine($"{g.Nome} is added by {p.Name}.");
-                                }
-                            }
-
-
-                            if (p.IsMonster)
-                            {
-
-                                bool exist = list.Any(per => per.Name == p.Name);
-
-                                if (!exist)
-                                {
-                                    list.Add(p);
-                                    Console.WriteLine($"{g.Nome} is added by {p.Name}.");
-                                }
-                            }
-
-                            if (p.IsAnimal)
-                            {
-
-                                bool exist = list.Any(per => per.Name == p.Name);
-
-                                if (!exist)
-                                {
-                                    list.Add(p);
-                                    Console.WriteLine($"{g.Nome} is added by {p.Name}.");
-                                }
-                            }
-
-                        }
-
-                    }
-
+                    countAttr++;
                 }
-
             }
 
+            if (p.IsVillain)
+            {
+                if (!questionsOk.ContainsKey("IsVillain"))
+                {
+                    countAttr++;
+                }
+            }
+
+            if(p.IsMonster)
+            {
+                if (!questionsOk.ContainsKey("IsMonster"))
+                {
+                    countAttr++;
+                }
+            }
+
+            if(p.IsAnimal)
+            {
+                if (!questionsOk.ContainsKey("IsAnimal"))
+                {
+                    countAttr++;
+                }
+            }
+
+
+            if(countAttr == 1)
+            {
+                pResult.Add(p);
+            }
+
+
         }
 
-        return list;
-
-    }
-
-    public List<Person> RemovePersonOfFalseAttr(List<Person> persons)
-    {
-
-        List<Person> list = new List<Person>();
-
-
-        foreach (Person p in persons) 
+        if(pResult == null)
         {
-            list.Add(p);
+            return null;
         }
-
-
-        return list;
-
-    }
-
-
-    
-    
-    //Prints
-    public void ShowPossiblePersons(List<Person> list)
-    {
-
-        Console.WriteLine("\nSábio: Esses são os possíveis personagens de acordo com a sua resposta:\n");
-        Console.WriteLine("====================");
-
-
-        foreach (Person p in list)
+        else if(pResult.Count > 1)
         {
-            Console.WriteLine(p.Name);
+            return null;
+        }
+        else
+        {
+            return pResult;
         }
 
+        */
 
-        Console.WriteLine("====================");
-        Console.Write("\nAperte enter para continuar. ");
 
     }
-    public void ShowMyPersons(List<Person> persons)
+
+
+    public Dictionary<string, string> GeneratePersonQuestion(List<Person> persons)
     {
+
+        Dictionary<string, string> questions = new Dictionary<string, string>();
+
 
         foreach (Person p in persons)
         {
-            Console.WriteLine(p.ToString());
+
+            //Validando atributo cabelo
+            if(p.CorCabelo != "None")
+            {
+                if (p.CorCabelo == "Loiro")
+                {
+                    if (p.IsAnimal)
+                    {
+                        if (!questions.ContainsKey("CorPelo_Loiro"))
+                        {
+                            questions.Add("CorPelo_Loiro", "é um animal com pelo loiro");
+                        }
+                    }
+                    else
+                    {
+                        if (!questions.ContainsKey("CorCabelo_Loiro"))
+                        {
+                            questions.Add("CorCabelo_Loiro", "tem cabelo loiro");
+                        }
+                    }
+                }
+
+                if (p.CorCabelo == "Castanho")
+                {
+
+                    if (p.IsAnimal)
+                    {
+                        if (!questions.ContainsKey("CorPelo_Castanho"))
+                        {
+                            questions.Add("CorPelo_Castanho", "é um animal com pelo castanho");
+                        }
+                    }
+                    else
+                    {
+                        if (!questions.ContainsKey("CorCabelo_Castanho"))
+                        {
+                            questions.Add("CorCabelo_Castanho", "tem cabelo castanho");
+                        }
+                    }
+
+                }
+
+                if (p.CorCabelo == "Preto")
+                {
+                    if (p.IsAnimal)
+                    {
+                        if (!questions.ContainsKey("CorPelo_Preto"))
+                        {
+                            questions.Add("CorPelo_Preto", "é um animal com pelo preto");
+                        }
+                    }
+                    else
+                    {
+                        if (!questions.ContainsKey("CorCabelo_Preto"))
+                        {
+                            questions.Add("CorCabelo_Preto", "tem cabelo preto");
+                        }
+                    }
+                }
+
+                if (p.CorCabelo == "Ruivo")
+                {
+                    if (p.IsAnimal)
+                    {
+                        if (!questions.ContainsKey("CorPelo_Ruivo"))
+                        {
+                            questions.Add("CorPelo_Preto", "é um animal com pelo ruivo");
+                        }
+                    }
+                    else
+                    {
+                        if (!questions.ContainsKey("CorCabelo_Ruivo"))
+                        {
+                            questions.Add("CorCabelo_Ruivo", "tem cabelo ruivo");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (p.IsAnimal)
+                {
+                    if (!questions.ContainsKey("SemPelo"))
+                    {
+                        questions.Add("SemPelo", "possuí pelo");
+                    }
+                }
+                else
+                {
+                    if (!questions.ContainsKey("SemCabelo"))
+                    {
+                        questions.Add("SemCabelo", "possuí cabelo");
+                    }
+                }
+            }
+
+
+            //Validando atributo filme
+            if(p.Movie != "None")
+            {
+                if(!questions.ContainsKey("ReiLeao"))
+                {
+                    questions.Add("ReiLeao", "faz parte do filme 'O Rei Leão'");
+                }
+                
+                if(!questions.ContainsKey("VingadoresUltimato"))
+                {
+                    questions.Add("VingadoresUltimato", "faz parte do filme 'Vingadores Ultimato'");
+                }
+            }
+
+        }
+
+
+        return questions;
+
+    }
+
+
+
+
+//Remove or add
+public List<Person> RemovePersonOfMajorGroup(List<AttrGroup> groups, AttrGroup majorGroup, int response)
+{
+
+    List<Person> list = new List<Person>();
+
+    if (response == 0)
+    {
+        foreach (AttrGroup g in groups)
+        {
+
+            if (g.Nome != majorGroup.Nome)
+            {
+
+                foreach (Person p in g.Persons)
+                {
+
+                    bool discarted = false;
+
+                    //Verifica se possuí atributo do maior grupo anterior
+                    if (nameof(p.HavePower) == majorGroup.Nome)
+                    {
+                        //Caso seja o atributo do maior grupo anterior, verifica se o atributo é verdadeiro
+                        if (p.HavePower)
+                        {
+                            //Se for verdadeiro, o personagem pode ser descartado (Objetivo é remover os personagens que possuem o atributo do grupo anterior)
+                            discarted = true;
+                        }
+                    }
+
+                    if (nameof(p.IsVillain) == majorGroup.Nome)
+                    {
+                        if (p.IsVillain)
+                        {
+                            discarted = true;
+                        }
+                    }
+
+                    if (nameof(p.IsMonster) == majorGroup.Nome)
+                    {
+                        if (p.IsMonster)
+                        {
+                            discarted = true;
+                        }
+                    }
+
+                    if (nameof(p.IsAnimal) == majorGroup.Nome)
+                    {
+                        if (p.IsAnimal)
+                        {
+                            discarted = true;
+                        }
+                    }
+
+
+
+                    //Caso o personagem não tenha nenhum atributo do grupo anterior.
+                    if (!discarted)
+                    {
+
+                        //Verifica se possuí o atributo
+                        if (p.HavePower)
+                        {
+
+                            //Tenta encontrar o personagem na lista atual
+                            bool exist = list.Any(per => per.Name == p.Name);
+
+
+                            //Caso não foi encontrado na lista
+                            if (!exist)
+                            {
+                                //Adiciona o personagem a lista
+                                list.Add(p);
+                                Console.WriteLine($"{g.Nome} is added by {p.Name}.");
+                            }
+                        }
+
+                        if (p.IsVillain)
+                        {
+
+                            bool exist = list.Any(per => per.Name == p.Name);
+
+                            if (!exist)
+                            {
+                                list.Add(p);
+                                Console.WriteLine($"{g.Nome} is added by {p.Name}.");
+                            }
+                        }
+
+
+                        if (p.IsMonster)
+                        {
+
+                            bool exist = list.Any(per => per.Name == p.Name);
+
+                            if (!exist)
+                            {
+                                list.Add(p);
+                                Console.WriteLine($"{g.Nome} is added by {p.Name}.");
+                            }
+                        }
+
+                        if (p.IsAnimal)
+                        {
+
+                            bool exist = list.Any(per => per.Name == p.Name);
+
+                            if (!exist)
+                            {
+                                list.Add(p);
+                                Console.WriteLine($"{g.Nome} is added by {p.Name}.");
+                            }
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+    }
+    else if (response == 1)
+    {
+        foreach (AttrGroup g in groups)
+        {
+
+            if (g.Nome == majorGroup.Nome)
+            {
+
+                foreach (Person p in g.Persons)
+                {
+
+                    bool discarted = false;
+
+                    //Verifica se possuí atributo do maior grupo anterior
+                    if (nameof(p.HavePower) != majorGroup.Nome)
+                    {
+                        //Caso seja o atributo do maior grupo anterior, verifica se o atributo é verdadeiro
+                        if (p.HavePower)
+                        {
+                            //Se for verdadeiro, o personagem pode ser descartado (Objetivo é remover os personagens que possuem o atributo do grupo anterior)
+                            discarted = true;
+                        }
+                    }
+
+                    if (nameof(p.IsVillain) == majorGroup.Nome)
+                    {
+                        if (p.IsVillain)
+                        {
+                            discarted = true;
+                        }
+                    }
+
+                    if (nameof(p.IsMonster) == majorGroup.Nome)
+                    {
+                        if (p.IsMonster)
+                        {
+                            discarted = true;
+                        }
+                    }
+
+                    if (nameof(p.IsAnimal) == majorGroup.Nome)
+                    {
+                        if (p.IsAnimal)
+                        {
+                            discarted = true;
+                        }
+                    }
+
+
+
+                    //Caso o personagem não tenha nenhum atributo do grupo anterior.
+                    if (!discarted)
+                    {
+
+                        //Verifica se possuí o atributo
+                        if (p.HavePower)
+                        {
+
+                            //Tenta encontrar o personagem na lista atual
+                            bool exist = list.Any(per => per.Name == p.Name);
+
+
+                            //Caso não foi encontrado na lista
+                            if (!exist)
+                            {
+                                //Adiciona o personagem a lista
+                                list.Add(p);
+                                Console.WriteLine($"{g.Nome} is added by {p.Name}.");
+                            }
+                        }
+
+                        if (p.IsVillain)
+                        {
+
+                            bool exist = list.Any(per => per.Name == p.Name);
+
+                            if (!exist)
+                            {
+                                list.Add(p);
+                                Console.WriteLine($"{g.Nome} is added by {p.Name}.");
+                            }
+                        }
+
+
+                        if (p.IsMonster)
+                        {
+
+                            bool exist = list.Any(per => per.Name == p.Name);
+
+                            if (!exist)
+                            {
+                                list.Add(p);
+                                Console.WriteLine($"{g.Nome} is added by {p.Name}.");
+                            }
+                        }
+
+                        if (p.IsAnimal)
+                        {
+
+                            bool exist = list.Any(per => per.Name == p.Name);
+
+                            if (!exist)
+                            {
+                                list.Add(p);
+                                Console.WriteLine($"{g.Nome} is added by {p.Name}.");
+                            }
+                        }
+
+                    }
+
+                }
+
+            }
+
         }
 
     }
 
-    public override string ToString()
+    return list;
+
+}
+
+public List<Person> RemovePersonOfFalseAttr(List<Person> persons)
+{
+
+    List<Person> list = new List<Person>();
+
+
+    foreach (Person p in persons)
     {
-        return $"--{Id}---------------------------------------------------------------------------------------------" +
-               $"\nNome: {Name}\nFilme: {Movie}\nCor do cabelo: {CorCabelo}\nAnimal: {IsAnimal}\nMonstro: {IsMonster}\nVilão: {IsVillain}\nPoderes: {HavePower}\n\nCaracteristica única: {UniqueFeature}\n" +
-               "--x---------------------------------------------------------------------------------------------\n";
+        list.Add(p);
     }
+
+
+    return list;
+
+}
+
+
+
+
+//Prints
+public void ShowPossiblePersons(List<Person> list)
+{
+
+    Console.WriteLine("\nSábio: Esses são os possíveis personagens de acordo com a sua resposta:\n");
+    Console.WriteLine("====================");
+
+
+    foreach (Person p in list)
+    {
+        Console.WriteLine(p.Name);
+    }
+
+
+    Console.WriteLine("====================");
+    Console.Write("\nAperte enter para continuar. ");
+
+}
+public void ShowMyPersons(List<Person> persons)
+{
+
+    foreach (Person p in persons)
+    {
+        Console.WriteLine(p.ToString());
+    }
+
+}
+
+public override string ToString()
+{
+    return $"--{Id}---------------------------------------------------------------------------------------------" +
+           $"\nNome: {Name}\nFilme: {Movie}\nCor do cabelo: {CorCabelo}\nAnimal: {IsAnimal}\nMonstro: {IsMonster}\nVilão: {IsVillain}\nPoderes: {HavePower}\n\nCaracteristica única: {UniqueFeature}\n" +
+           "--x---------------------------------------------------------------------------------------------\n";
+}
 
 }

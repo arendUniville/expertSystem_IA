@@ -25,7 +25,9 @@ class Program
         bool personFinded = false;
 
         List<Person> list = new List<Person>();
+
         Dictionary<string, string> questions = new Dictionary<string, string>();
+
         List<AttrGroup> groups = new List<AttrGroup>();
 
 
@@ -47,7 +49,7 @@ class Program
 
 
 
-//(1)---Gerando persons
+        //(1)---Gerando persons
         if (phase == 1)
             list = persons.GeneratePersons();
 
@@ -63,7 +65,7 @@ class Program
 
         Console.WriteLine($"Phase {phase}\n\n");
 
-        
+
         //Mostrando persons
         if (showPersons)
         {
@@ -88,19 +90,35 @@ class Program
         while (!personFinded)
         {
 
-//(2)---Gerando perguntas
+            //(2)---Gerando perguntas
             questions = group.GenerateGroupQuestions(list, questionsOk, phase);
 
 
 
-//(3)---Gerando grupos de características
+
+            //(3)---Gerando grupos de características
             if (phase == 1)
             {
                 groups = person.GroupAndCount(list, questions);
             }
 
 
-//(3.2)---Gerando grupos de características
+
+            Console.Clear();
+            Console.WriteLine("Totais: ");
+            foreach (AttrGroup g in groups)
+            {
+                Console.WriteLine($"Grupo {g.Nome} | Total: {g.Total}");
+            }
+
+            //Verificando escolha
+            choice = VerifyKey();
+            if (choice == 2) return;
+
+
+
+
+            //(3.2)---Gerando grupos de características
 
             //Verificando se é o último grupo
             if (groups.Count == 1)
@@ -108,6 +126,42 @@ class Program
                 lastGroup = true;
                 phase = 2;
             }
+            else if (groups.Count == 2)
+            {
+
+                Console.Clear();
+                Console.WriteLine("Scanning Groups...");
+
+                List<Person> lastPersonList = person.ScanGroups(groups, questionsOk);
+
+                Thread.Sleep(1300);
+
+
+                if (lastPersonList != null)
+                {
+                    Console.WriteLine($"Personagem {lastPersonList.First().Name} possuí apenas 1 atributo disponível.");
+                    phase = 2;
+                }
+                else
+                {
+                    Console.WriteLine("Nenhum personagem restando apenas 1 atributo foi encontrado.");
+                }
+
+                //Verificando escolha
+                choice = VerifyKey();
+                if (choice == 2) return;
+
+            }
+
+
+            Console.Clear();
+            Console.WriteLine("Getting Major Group...");
+
+            Thread.Sleep(1300);
+
+            Console.Clear();
+
+
 
 
             //Mostrando todos os grupos
@@ -127,13 +181,34 @@ class Program
             }
 
 
-//(4)---Buscando grupo de características com mais personagens (Aqui pode ser melhorado passando uma lista de AttrGroup ao invés de um por um)
-            AttrGroup majorGroup = person.GetMajorGroup(groups, questionsOk, showMessages);
+            //(4)---Buscando grupo de características com mais personagens (Aqui pode ser melhorado passando uma lista de AttrGroup ao invés de um por um)
+            AttrGroup majorGroup = new AttrGroup();
+            if (phase == 1)
+            {
+                majorGroup = person.GetMajorGroup(groups, questionsOk, showMessages);
+            }
+            else if (phase == 2) 
+            {
+                Console.Clear();
+                Console.WriteLine("Phase 2");
+            }
 
 
-//(5)---Faz a pergunta do grupo encontrado no passo 4
-            Console.Write($"Sábio: O personagem que você escolheu {questions[majorGroup.Nome]} (s/n): ");
-            questionsOk.Add(majorGroup.Nome, questions[majorGroup.Nome]);
+
+            //(5)---Faz a pergunta do grupo encontrado no passo 4
+            if(phase == 1)
+            {
+                Console.Write($"Sábio: O personagem que você escolheu {questions[majorGroup.Nome]}? (s/n): ");
+                questionsOk.Add(majorGroup.Nome, questions[majorGroup.Nome]);
+            }
+            else if(phase == 2)
+            {
+                Console.Clear();
+                Console.WriteLine("Phase 2");
+            }
+
+
+
 
             //Verificando escolha
             choice = VerifyKey();
@@ -205,7 +280,7 @@ class Program
                 //Verificando escolha
                 choice = VerifyKey();
                 if (choice == 2) return;
-                
+
 
 
             }
