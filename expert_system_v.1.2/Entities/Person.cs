@@ -65,71 +65,73 @@ class Person
 
 
     //Groups
-    public List<AttrGroup> GroupAndCount(List<Person> list, Dictionary<string, string> questions)
+    public List<AttrGroup> GroupAndCount(List<Person> list, Dictionary<string, string> questions, int phase)
     {
-
+        
         List<AttrGroup> groupPersons = new List<AttrGroup>();
         AttrGroup groups;
 
 
-        //Fazendo contagem
-        int cntPower = list.Where(p => p.HavePower).Count();
-        int cntVillain = list.Where(p => p.IsVillain).Count();
-        int cntMonster = list.Where(p => p.IsMonster).Count();
-        int cntAnimal = list.Where(p => p.IsAnimal).Count();
-
-
-        //Atribuindo grupos
-        if (cntPower > 0)
+        if (phase == 1)
         {
-            if (questions.ContainsKey("HavePower"))
+
+            //Fazendo contagem
+            int cntPower = list.Where(p => p.HavePower).Count();
+            int cntVillain = list.Where(p => p.IsVillain).Count();
+            int cntMonster = list.Where(p => p.IsMonster).Count();
+            int cntAnimal = list.Where(p => p.IsAnimal).Count();
+
+
+            //Atribuindo grupos
+            if (cntPower > 0)
             {
-                List<Person> allPower = list.Where(p => p.HavePower).ToList();
-                groupPersons.Add(
-                    new AttrGroup("HavePower", cntPower, questions["HavePower"], allPower)
-                );
-            }
-        }
-
-        if (cntVillain > 0)
-        {
-            if (questions.ContainsKey("IsVillain"))
-            {
-
-                List<Person> allVillain = list.Where(p => p.IsVillain).ToList();
-                groupPersons.Add(
-                    new AttrGroup("IsVillain", cntVillain, questions["IsVillain"], allVillain)
-                );
-
-            }
-        }
-
-        if (cntMonster > 0)
-        {
-            if (questions.ContainsKey("IsMonster"))
-            {
-                List<Person> allMonster = list.Where(p => p.IsMonster).ToList();
-                groupPersons.Add(
-                    new AttrGroup("IsMonster", cntMonster, questions["IsMonster"], allMonster)
-                );
+                if (questions.ContainsKey("HavePower"))
+                {
+                    List<Person> allPower = list.Where(p => p.HavePower).ToList();
+                    groupPersons.Add(
+                        new AttrGroup("HavePower", cntPower, questions["HavePower"], allPower)
+                    );
+                }
             }
 
-        }
-
-        if (cntAnimal > 0)
-        {
-            if (questions.ContainsKey("IsAnimal"))
+            if (cntVillain > 0)
             {
+                if (questions.ContainsKey("IsVillain"))
+                {
 
-                List<Person> allAnimal = list.Where(p => p.IsAnimal).ToList();
-                groupPersons.Add(
-                    new AttrGroup("IsAnimal", cntAnimal, questions["IsAnimal"], allAnimal)
-                );
+                    List<Person> allVillain = list.Where(p => p.IsVillain).ToList();
+                    groupPersons.Add(
+                        new AttrGroup("IsVillain", cntVillain, questions["IsVillain"], allVillain)
+                    );
 
+                }
+            }
+
+            if (cntMonster > 0)
+            {
+                if (questions.ContainsKey("IsMonster"))
+                {
+                    List<Person> allMonster = list.Where(p => p.IsMonster).ToList();
+                    groupPersons.Add(
+                        new AttrGroup("IsMonster", cntMonster, questions["IsMonster"], allMonster)
+                    );
+                }
+            }
+
+            if (cntAnimal > 0)
+            {
+                if (questions.ContainsKey("IsAnimal"))
+                {
+
+                    List<Person> allAnimal = list.Where(p => p.IsAnimal).ToList();
+                    groupPersons.Add(
+                        new AttrGroup("IsAnimal", cntAnimal, questions["IsAnimal"], allAnimal)
+                    );
+
+                }
             }
 
         }
-
 
         return groupPersons;
 
@@ -199,6 +201,7 @@ class Person
         }
 
 
+        //Log
         if (msg)
         {
             Console.WriteLine($"Total de personagens com poderes: {power}");
@@ -207,7 +210,6 @@ class Person
             Console.WriteLine($"Total de personagens animais: {animal}");
 
         }
-
 
 
         return majorityGroup;
@@ -250,74 +252,6 @@ class Person
         {
             return null;
         }
-
-
-        //Verificando se existe personagem diferente de todos
-
-        /*
-        foreach (Person p in minorGroup.Persons)
-        {
-
-            int countAttr = 0;
-
-
-            //Verificando quantos atributos restaram
-            if(p.HavePower) 
-            {
-                if (!questionsOk.ContainsKey("HavePower"))
-                {
-                    countAttr++;
-                }
-            }
-
-            if (p.IsVillain)
-            {
-                if (!questionsOk.ContainsKey("IsVillain"))
-                {
-                    countAttr++;
-                }
-            }
-
-            if(p.IsMonster)
-            {
-                if (!questionsOk.ContainsKey("IsMonster"))
-                {
-                    countAttr++;
-                }
-            }
-
-            if(p.IsAnimal)
-            {
-                if (!questionsOk.ContainsKey("IsAnimal"))
-                {
-                    countAttr++;
-                }
-            }
-
-
-            if(countAttr == 1)
-            {
-                pResult.Add(p);
-            }
-
-
-        }
-
-        if(pResult == null)
-        {
-            return null;
-        }
-        else if(pResult.Count > 1)
-        {
-            return null;
-        }
-        else
-        {
-            return pResult;
-        }
-
-        */
-
 
     }
 
@@ -447,6 +381,7 @@ class Person
         return questions;
 
     }
+
 
 
 

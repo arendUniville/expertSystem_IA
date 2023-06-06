@@ -11,7 +11,10 @@ class Program
 
         PersonRepository persons = new PersonRepository();
         Person person = new Person();
+        
         AttrGroup group = new AttrGroup();
+        AttrGroup majorGroup = new AttrGroup();
+
         Dictionary<string, string> questionsOk = new Dictionary<string, string>();
 
         bool showPersons = false;
@@ -24,7 +27,11 @@ class Program
 
         bool personFinded = false;
 
+        bool exceptionPerson = false;
+        AttrGroup exceptionPersonObj = new AttrGroup();
+
         List<Person> list = new List<Person>();
+
 
         Dictionary<string, string> questions = new Dictionary<string, string>();
 
@@ -49,7 +56,7 @@ class Program
 
 
 
-        //(1)---Gerando persons
+//(1)---Gerando persons
         if (phase == 1)
             list = persons.GeneratePersons();
 
@@ -90,16 +97,19 @@ class Program
         while (!personFinded)
         {
 
-            //(2)---Gerando perguntas
+            exceptionPerson = false;
+            majorGroup = null;
+
+//(2)---Gerando perguntas
             questions = group.GenerateGroupQuestions(list, questionsOk, phase);
 
 
 
 
-            //(3)---Gerando grupos de características
+//(3)---Gerando grupos de características
             if (phase == 1)
             {
-                groups = person.GroupAndCount(list, questions);
+                groups = person.GroupAndCount(list, questions, phase);
             }
 
 
@@ -118,13 +128,13 @@ class Program
 
 
 
-            //(3.2)---Gerando grupos de características
+//(3.2)---Gerando grupos de características
 
-            //Verificando se é o último grupo
+            //Verificando se restam dois ou menos grupos
             if (groups.Count == 1)
             {
                 lastGroup = true;
-                phase = 2;
+                //phase = 2;
             }
             else if (groups.Count == 2)
             {
@@ -132,20 +142,34 @@ class Program
                 Console.Clear();
                 Console.WriteLine("Scanning Groups...");
 
+
+                //Buscando algum grupo que possua apenas 1 person
                 List<Person> lastPersonList = person.ScanGroups(groups, questionsOk);
 
+                
+                
                 Thread.Sleep(1300);
 
 
+
+                //Validando se grupo com apenas 1 person foi encontrado
                 if (lastPersonList != null)
                 {
                     Console.WriteLine($"Personagem {lastPersonList.First().Name} possuí apenas 1 atributo disponível.");
-                    phase = 2;
+                    exceptionPerson = true;
+
+
+                    //Buscando a pergunta do grupo do personagem exception
+                    exceptionPersonObj = groups.Where(g => g.Total == 1).First();
+
                 }
                 else
                 {
                     Console.WriteLine("Nenhum personagem restando apenas 1 atributo foi encontrado.");
                 }
+
+
+
 
                 //Verificando escolha
                 choice = VerifyKey();
@@ -181,11 +205,21 @@ class Program
             }
 
 
-            //(4)---Buscando grupo de características com mais personagens (Aqui pode ser melhorado passando uma lista de AttrGroup ao invés de um por um)
-            AttrGroup majorGroup = new AttrGroup();
+//(4)---Buscando grupo de características com mais personagens (Aqui pode ser melhorado passando uma lista de AttrGroup ao invés de um por um)
+            
             if (phase == 1)
             {
-                majorGroup = person.GetMajorGroup(groups, questionsOk, showMessages);
+
+                //Caso não exista um personagem exceção (Único restante do grupo)
+                if (!exceptionPerson)
+                {
+                    majorGroup = person.GetMajorGroup(groups, questionsOk, showMessages);
+                }
+                else
+                {
+                    //Atribuindo exception ao majorGroup
+                    majorGroup = exceptionPersonObj;
+                }
             }
             else if (phase == 2) 
             {
@@ -195,7 +229,7 @@ class Program
 
 
 
-            //(5)---Faz a pergunta do grupo encontrado no passo 4
+//(5)---Faz a pergunta do grupo encontrado no passo 4
             if(phase == 1)
             {
                 Console.Write($"Sábio: O personagem que você escolheu {questions[majorGroup.Nome]}? (s/n): ");
@@ -230,7 +264,21 @@ class Program
 
 
                 //Adicionando ao grupo de características possíveis o grupo que foi perguntado ao usuário
-                list = person.RemovePersonOfFalseAttr(groups.OrderByDescending(p => p.Persons.Count).FirstOrDefault().Persons.ToList());
+                if(!exceptionPerson)
+                {
+                    list = person.RemovePersonOfFalseAttr(groups.OrderByDescending(p => p.Persons.Count).FirstOrDefault().Persons.ToList());
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("===========\nEm desenvolvimento\n===========\n");
+                    list = person.RemovePersonOfFalseAttr(majorGroup.Persons.ToList());
+
+                    //Verificando escolha
+                    choice = VerifyKey();
+                    if (choice == 2) return;
+
+                }
 
 
                 if (person.IsLastPerson(list))
@@ -305,7 +353,6 @@ class Program
 
         if (keyChar == '1')
         {
-
             Console.Clear();
             Console.WriteLine("\nEnd.\n");
 
@@ -313,7 +360,6 @@ class Program
         }
         else
         {
-
             if (keyChar == 's')
             {
                 return 1;
@@ -326,7 +372,6 @@ class Program
             {
                 return 3;
             }
-
         }
 
     }
