@@ -107,11 +107,9 @@ class Program
 
 
 //(3)---Gerando grupos de características
-            if (phase == 1)
-            {
-                groups = person.GroupAndCount(list, questions, phase);
-            }
-
+            
+            groups = person.GroupAndCount(list, questions, phase);
+            
 
 
             Console.Clear();
@@ -120,6 +118,9 @@ class Program
             {
                 Console.WriteLine($"Grupo {g.Nome} | Total: {g.Total}");
             }
+
+
+            Console.WriteLine($"Quantidade total de grupos: {groups.Count}");
 
             //Verificando escolha
             choice = VerifyKey();
@@ -134,7 +135,10 @@ class Program
             if (groups.Count == 1)
             {
                 lastGroup = true;
-                //phase = 2;
+                phase = 2;
+
+                Console.WriteLine($"Entrou em apenas 1 grupo. Fase {phase}");
+
             }
             else if (groups.Count == 2)
             {
@@ -205,11 +209,10 @@ class Program
             }
 
 
-//(4)---Buscando grupo de características com mais personagens (Aqui pode ser melhorado passando uma lista de AttrGroup ao invés de um por um)
+//(4)---Buscando grupo de características com mais personagens
             
             if (phase == 1)
             {
-
                 //Caso não exista um personagem exceção (Único restante do grupo)
                 if (!exceptionPerson)
                 {
